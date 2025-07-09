@@ -1,0 +1,6 @@
+package com.cdac.acts.enums;
+
+public enum AccountTypeEnum {
+	SA("Saving Account"),
+	CA("Current Account");
+}

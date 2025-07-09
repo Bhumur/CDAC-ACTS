@@ -1,0 +1,12 @@
+Note : Question 1 of each section is compulsory
+
+___________________________Section A_________________________________
+1.Complete fruit code with Context(use my component structure)
+2.Complete Movies with context (Use my component structure)
+
+__________________________Section B______________________________
+Note : Use express api server also to add and delete operation.(Do not use db use array of object variable)
+1.Write a code to take fruit name from user and print in list(Show list in different Component)
+
+2.Write react code to read movie data from user and show in table(Use different Component for table).
+Movie Fields : movieName, actor, release(date),Movie type(2d,3d,IMAX)(use checkbox), state(use select tag)

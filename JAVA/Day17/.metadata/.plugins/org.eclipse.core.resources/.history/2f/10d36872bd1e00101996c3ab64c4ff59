@@ -1,0 +1,13 @@
+package com.cdac.acts.tester;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class StringListStreamApiTest {
+
+	public static void main(String[] args) {
+		String []str = {"Bhumur", "Mukul", "Anuj", "Pratik", "Jyotinjai", "Archit", "Uday", "Pranav", "Bhumur", "MUkul", "Mannu", "Anuj", "Anuj", "Bhumur"};
+		List<String> stringList = new asList(str);
+	}
+
+}

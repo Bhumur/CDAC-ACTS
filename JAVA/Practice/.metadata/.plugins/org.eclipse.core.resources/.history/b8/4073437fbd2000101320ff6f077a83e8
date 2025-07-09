@@ -1,0 +1,27 @@
+package com.cdac.acts.tester;
+
+import java.util.Scanner;
+
+import com.cdac.acts.queue.Queue;
+
+public class Queuetest {
+
+	public static void main(String[] args) {
+		Queue queue = new Queue();
+		int op;
+		try(Scanner sc = new Scanner(System.in)){
+			do {
+				System.out.println("OPTIONS:-");
+				System.out.println("1. Push To Queue.");
+				System.out.println("2. Pop From Queue.");
+				System.out.println("3. Get Full Queue.");
+				System.out.println("4. Check If it is Empty");
+				System.out.println("0. EXIT");
+				System.out.print("\nEnter Your Choice : ");
+				op = sc.nextInt();
+			}
+		}
+		
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.cdac.acts.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cdac.acts.enums.OSEnum;
+import com.cdac.acts.mobile.MobilePhone;
+
+public class DataUtil {
+	public static List<MobilePhone> mobileListData(){
+		List<MobilePhone> list = new ArrayList<>();
+		list.add(new MobilePhone("12AB","HP",OSEnum.valueOf("WINDOWS"),"Red","124.5",8));
+	}
+}

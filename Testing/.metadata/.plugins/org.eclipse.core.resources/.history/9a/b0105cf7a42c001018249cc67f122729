@@ -1,0 +1,132 @@
+package cdac;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.time.Duration;
+
+public class Login_SauceDemo_TestNG {
+    WebDriver driver;
+    WebDriverWait wait;
+
+    @BeforeMethod
+    public void setUp() {
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+    }
+
+    @Test(priority = 1)
+    public void testPositiveLoginSauceDemo() throws InterruptedException {
+    	
+    	
+    	
+        driver.get("https://www.saucedemo.com/");
+        WebElement username = driver.findElement(By.id("user-name"));
+        username.sendKeys("visual_user");
+        WebElement password = driver.findElement(By.id("password"));
+        password.sendKeys("secret_sauce");
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        loginButton.click();
+        
+        wait.until(ExpectedConditions.urlContains("https://www.saucedemo.com/inventory.html"));
+        String currentUrl = driver.getCurrentUrl();
+        
+        
+        Assert.assertTrue(currentUrl.contains("inventory.html"), "Redirect Succes : " + currentUrl);
+//        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fname")));
+//        //WebElement password = driver.findElement(By.id("password"));
+//        WebElement loginButton = driver.findElement(By.id("idOfButton"));
+//
+//        username.sendKeys("Bhumur");
+//        //password.sendKeys("secret_sauce");
+//        loginButton.click();
+
+//      Select dropdown = new Select(driver.findElement(By.id("gLFyf")));
+//    	dropdown.selectByVisibleText("www.facebook.com");
+//    	
+//    	WebElement inp = driver.findElement(By.linkText("Sign in"));
+//    	inp.click();
+//    	
+//    	Thread.sleep(7000);
+//    	
+//    	
+//    	WebElement checkBox = driver.findElement(By.className("success-circle"));//
+////    	WebElement checkBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("p1")));
+//////    	System.out.println("checkbox");
+////    	if(!checkBox.isSelected()) {
+//    		checkBox.click();
+////    	}
+//    		Thread.sleep(5000);
+//    	
+//    	WebElement emailInput = driver.findElement(By.name("login"));
+//    	emailInput.sendKeys("bhumur_restart");
+//    	System.out.println("email");
+//    	WebElement passwordInput = driver.findElement(By.name("password"));
+//    	passwordInput.sendKeys("19dcs009");
+//    	System.out.println("pass");
+//    	
+//    	
+//    	
+//    	Thread.sleep(5000);
+//    	
+//    	WebElement signinButton = driver.findElement(By.linkText("Sign In"));
+//    	signinButton.click();
+//    	System.out.println("signbox");
+    	
+    	
+    	
+    	
+    	
+        // Verify login by checking the URL
+        //wait.until(ExpectedConditions.urlContains("https://leetcode.com/"));
+//        Thread.sleep(20000);
+//        String currentUrl = driver.getCurrentUrl();
+//        Assert.assertEquals(currentUrl.contains("https://leetcode.com/"), "Redirect Succes" + currentUrl);
+    }
+
+    @Test(priority = 2)
+    public void testNegativeLoginSauceDemo() {
+        driver.get("https://leetcode.com/");
+
+        WebElement checkBox = driver.findElement(By.className("success-circle"));//
+//		WebElement checkBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("p1")));
+		//System.out.println("checkbox");
+		if(!checkBox.isSelected()) {
+			checkBox.click();
+		}
+		Thread.sleep(5000);
+
+		WebElement emailInput = driver.findElement(By.name("login"));
+		emailInput.sendKeys("bhumur_restart");
+		System.out.println("email");
+		WebElement passwordInput = driver.findElement(By.name("password"));
+		passwordInput.sendKeys("19dcs009");
+		System.out.println("pass");
+
+
+
+Thread.sleep(5000);
+
+WebElement signinButton = driver.findElement(By.linkText("Sign In"));
+signinButton.click();
+System.out.println("signbox");               
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }    
+    
+}

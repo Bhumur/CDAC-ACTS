@@ -1,0 +1,72 @@
+package com.cdac.acts.tester;
+
+import java.util.Scanner;
+
+import com.cdac.acts.exeception.QueueEmptyException;
+import com.cdac.acts.queue.Queue;
+
+public class Queuetest {
+
+	public static void main(String[] args) throws QueueEmptyException {
+		Queue queue = new Queue();
+		int op;
+		try(Scanner sc = new Scanner(System.in)){
+			do {
+				System.out.println("\n\nOPTIONS:-");
+				System.out.println("1. Push To Queue.");
+				System.out.println("2. Pop From Queue.");
+				System.out.println("3. Get Full Queue.");
+				System.out.println("4. Check If it is Empty");
+				System.out.println("0. EXIT");
+				System.out.print("\nEnter Your Choice : ");
+				op = sc.nextInt();
+				switch(op) {
+					case 1: {
+						System.out.println("______Push to Queue_____");
+						System.out.print("Enter The Element Want to add : ");
+						Integer x = sc.nextInt();
+						queue.push(x);
+						System.out.println("Succesfully Pushed");
+						break;
+					}
+					case 2:{
+						System.out.println("______Pop to Queue_____");
+						try {
+							System.out.println(queue.pop());
+						}catch(QueueEmptyException e) {
+							
+						}
+						finally {
+							System.out.println("TRYING TO POP ELEMENT");
+						}
+						break;
+					}
+					case 3: {
+						System.out.println("______Get Full Queue_____");
+						try {
+							queue.getQueue().forEach((x)->System.out.print(x + " "));
+						}catch(QueueEmptyException e) {
+							
+						}
+						break;
+					}
+					case 4: {
+						System.out.println("______Check If it is Empty_____");
+						
+						if(queue.empty()) {
+							System.out.println("Queue is Empty");
+						}
+						else {
+							System.out.println("Queue is Not Empty");
+						}
+						break;
+					}
+					case 0: break;
+					default: System.out.println("INVALID INPUT");
+				}
+			}while(op!=0);
+		}
+		
+	}
+
+}

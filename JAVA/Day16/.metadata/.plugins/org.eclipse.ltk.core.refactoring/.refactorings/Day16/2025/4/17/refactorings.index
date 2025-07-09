@@ -1,0 +1,3 @@
+1745135958577	Extract method 'addBookFromFile'
+1745135999571	Extract method 'addBookToFile'
+1745136040371	Extract method 'addBookToList'

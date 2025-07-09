@@ -1,0 +1,66 @@
+package com.cdac.acts.fruit;
+
+import java.util.List;
+
+public class AppleTest {
+
+	public static void main(String[] args) {
+		List<Apple> apples = DataUtil.appleList();
+		int op;
+		try(Scanner sc = new Scanner(System.in)){
+			do {
+				System.out.print("1.     Filter by weight\r\n"
+						+ "2.     filter by color\r\n"
+						+ "3.     filter by color and weight\r\n"
+						+ "4.     filter by color, weight and taste\r\n"
+						+ "5.     Sort by weight\r\n"
+						+ "6.     Sort by color\r\n"
+						+ "7.     Remove red apples\r\n"
+						+ "8.     Removed Green apples\r\n"
+						+ "9.     Convert to Set collection"
+						+ "0.     EXIT\n\n"
+						+ "Enter Your Choice : ");
+				op = sc.nextInt();
+				switch(op) {
+					case 1: {
+						System.out.println("________Filter by weight________");
+						System.out.print("Enter Weight : ");
+						Double weight = sc.nextDouble();
+						apples
+						.stream()
+						.filter((apple)->apple.getColor().equals(weight))
+						.forEach(System.out::println);
+						
+						break;
+					}
+					case 2: {
+						System.out.println("________Filter by Color________");
+						System.out.print("Enter Color : ");
+						String color = sc.next();
+						apples
+						.stream()
+						.filter((apple)->apple.getColor().equals(color))
+						.forEach(System.out::println);
+						
+						break;
+					}
+					case 3: {
+						System.out.println("________Filter by color and weight________");
+						System.out.print("Enter Weight : ");
+						Double weight = sc.nextDouble();
+						System.out.print("Enter Color : ");
+						String color = sc.next();
+						apples
+						.stream()
+						.filter((apple)->apple.getColor().equals(color)&&apple.getWeight().equals(weight))
+						.forEach(System.out::println);
+						
+						break;
+					}
+				}
+			}while(op!=0);
+		}
+		
+	}
+
+}

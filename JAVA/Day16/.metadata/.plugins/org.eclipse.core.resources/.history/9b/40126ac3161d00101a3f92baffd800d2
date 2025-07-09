@@ -1,0 +1,31 @@
+package com.cdac.acts.tester;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
+public class FileReaderTest {
+
+	public static void main(String[] args) {
+		try(Scanner sc = new Scanner(System.in)){
+			System.out.println("Enter File Path : ");
+			String path = sc.next();
+			String text="";
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(path)); 
+			}catch (Exception e) {
+				e.setStackTrace();
+			}
+			while((text=br.nextLine())!=null) {
+				System.out.println(text);
+			}
+			
+			
+	 		
+		}
+		
+
+	}
+
+}

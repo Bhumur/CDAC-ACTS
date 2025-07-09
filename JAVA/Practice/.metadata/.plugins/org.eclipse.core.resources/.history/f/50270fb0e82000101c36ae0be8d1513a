@@ -1,0 +1,13 @@
+package com.cdac.acts.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.cdac.acts.account.Account;
+
+public class DataUtil {
+	public Map<Account> accountMap(){
+		Map<String,Account> accounts = new HashMap<>();
+		accounts.put("101", new Account("101",))
+	}
+}

@@ -1,0 +1,12 @@
+package com.cdac.acts.mobile;
+
+import com.cdac.acts.enums.OSEnum;
+
+public class MobilePhone {
+	private String serialNo;
+	private String brand;
+	private OSEnum os;
+	private String color;
+	private Double price;
+	private Integer ram;
+}

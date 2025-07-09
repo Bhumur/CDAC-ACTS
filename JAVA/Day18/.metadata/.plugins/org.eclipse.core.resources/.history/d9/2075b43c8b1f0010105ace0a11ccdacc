@@ -1,0 +1,18 @@
+package com.cdac.acts.tester;
+
+import java.util.List;
+
+import com.cdac.acts.mobile.MobilePhone;
+import com.cdac.acts.util.DataUtil;
+
+public class MobilePhoneTest {
+
+	public static void main(String[] args) {
+		List<MobilePhone> mobileList = DataUtil.mobileListData();
+		int op;
+		do {
+			System.out.println("");
+		}
+	}
+
+}

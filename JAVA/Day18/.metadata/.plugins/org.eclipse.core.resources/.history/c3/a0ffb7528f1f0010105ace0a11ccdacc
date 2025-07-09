@@ -1,0 +1,45 @@
+package com.cdac.acts.tester;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import com.cdac.acts.enums.OSEnum;
+import com.cdac.acts.mobile.MobilePhone;
+import com.cdac.acts.util.DataUtil;
+
+public class MobilePhoneTest {
+
+	public static void main(String[] args) {
+		List<MobilePhone> mobileList = DataUtil.mobileListData();
+		int op;
+		try(Scanner sc = new Scanner(System.in))
+		{
+			do {
+				System.out.println("OPTIONS:- ");
+				System.out.println("1. List of Andriod.");
+				System.out.println("2. List of IOS");
+				System.out.print("\n\nEnter Your chioce : ");
+				op = sc.nextInt();
+				Map<Boolean, List<MobilePhone>> map = mobileList.stream()
+						.collect(Collectors.partitioningBy((m) -> m.getOs().equals(OSEnum.valueOf("ANDRIOD"))));
+				switch(op) {
+					case 1: {
+						System.out.println("1. List of Andriod");
+						map.get(true).toString();
+						break;
+					}
+					case 2 :{
+						System.out.println("2. List of IOS");
+						map.get(false).toString();
+						break;
+					}
+					case 0: break;
+					default: System.out.println("INVALID INPUT");
+				}
+			}while(op!=0);
+		}
+	}
+
+}

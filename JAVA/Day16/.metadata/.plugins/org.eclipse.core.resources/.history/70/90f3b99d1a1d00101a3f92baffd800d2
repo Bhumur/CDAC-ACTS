@@ -1,0 +1,27 @@
+package com.cdac.acts.tester;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.List;
+
+import com.cdac.acts.book.Book;
+
+public class BookTest {
+
+	public static void main(String[] args) {
+		List<Book> books;
+		String filePath = "./book.dat";
+		File file = new File(path);
+		if(file.isFile()) {
+			DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(filePath)));
+			
+		}else {
+			books = DataEntry.bookList();
+		}
+
+	}
+
+}

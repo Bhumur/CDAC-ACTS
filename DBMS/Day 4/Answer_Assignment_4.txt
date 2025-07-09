@@ -1,0 +1,781 @@
+Name : Bhumur Agrawal
+PRN : 250240120047
+
+
+
+
+Constraints in RDBMS
+
+1. Create new table dept100 having same structure and data as that of dept table.
+
+mysql> create table dept100 as select distinct * from dept;
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from dept100;
++--------+------------+----------+
+| DEPTNO | DNAME      | LOC      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+
+1.Create new table emp100 having same structure and data as that of emp table.
+
+mysql> create table emp100 as select distinct * from emp;
+Query OK, 18 rows affected (0.01 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp100;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |     10 |
+|  8888 | Mukul  | Une       | 6566 | 1977-05-02 |  293.21 |    NULL |     54 |
+|  9999 | munur  | une       | 6566 | 1977-05-02 |  293.21 |    NULL |     54 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+18 rows in set (0.00 sec)
+
+2.Add primary key constraint on deptno for dept100 table.
+
+mysql> alter table dept100 add constraint pk_dptno primary key (deptno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe dept100;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | YES  |     | NULL    |       |
+| LOC    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+3.Add primary key constraint on empno for emp100 table. Check structure of both the tables.
+ 
+ 
+mysql> create table emp100 as select distinct * from emp;
+Query OK, 18 rows affected (0.01 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp100 add constraint pk_empno primary key (empno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe emp100;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| EMPNO    | int          | NO   | PRI | NULL    |       |
+| ENAME    | varchar(12)  | YES  |     | NULL    |       |
+| JOB      | varchar(9)   | YES  |     | NULL    |       |
+| MGR      | int          | YES  |     | NULL    |       |
+| HIREDATE | date         | YES  |     | NULL    |       |
+| SAL      | decimal(7,2) | YES  |     | NULL    |       |
+| COMM     | decimal(7,2) | YES  |     | NULL    |       |
+| DEPTNO   | int          | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec) 
+
+================================================================================================
+2. Create following tables for given schema. Apply constraints as mentioned in the schema.
+trainer(tid PK, tname not null , cid fk, salary default 20000,experience in years check >10 )
+tid     tname            cid        salary      experience
+----------------------------------------------------------------
+t1      Amit             c2          your   own   data 
+t2      Rajan            c1          your   own   data  
+t3      Shruti           c2          your   own   data
+t4      Arti             c2          your   own   data 
+t5      Sameer           c3          your   own   data 
+t6      Sanjay           null        your   own   data 
+t7      Soha             null        your   own   data	
+
+Use  on  delete set null clause on cid while creating table.
+
+/// first create base table course 
+
+mysql> create table trainer(tid varchar(10), tname varchar(25) not NULL, cid varchar(10), salary int default 20000, experience int check(experience > 10), constraint pk_tid primary key (tid), constraint fk_cid foreign key (cid) references course(cid) on delete set NULL);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> describe trainer;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| tid        | varchar(10) | NO   | PRI | NULL    |       |
+| tname      | varchar(25) | NO   |     | NULL    |       |
+| cid        | varchar(10) | YES  | MUL | NULL    |       |
+| salary     | int         | YES  |     | 20000   |       |
+| experience | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into trainer values('t1','Amit','c2',19000,15),('t2','Rajan','c1',21000,14),('t3','Shruti','c2',20500,13),('t4','Arti','c2',21500,12),('t5','Sameer','c3',25156, 11);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> insert into trainer(tid, tname, salary, experience) values ('t6','Sanjay',22500, 14),('t7','Soha',23000, 16);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |  19000 |         15 |
+| t2  | Rajan  | c1   |  21000 |         14 |
+| t3  | Shruti | c2   |  20500 |         13 |
+| t4  | Arti   | c2   |  21500 |         12 |
+| t5  | Sameer | c3   |  25156 |         11 |
+| t6  | Sanjay | NULL |  22500 |         14 |
+| t7  | Soha   | NULL |  23000 |         16 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+course(cid pk, cname unique not null, fees default500)
+
+mysql> create table course(cid varchar(10), cname varchar(25) unique not NULL, fees int default 500, c
+onstraint pk_cid primary key(cid));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> describe course;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cid   | varchar(10) | NO   | PRI | NULL    |       |
+| cname | varchar(25) | NO   | UNI | NULL    |       |
+| fees  | int         | YES  |     | 500     |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+
+cid         cname                         fees
+----------------------------------------------------      
+ c1          Core                         7000 
+ c2          Linux                        8000 
+ c3          Data Structure              10000 
+ c4          Python                      12000    
+ c5          Dot Net                       null
+ 
+
+mysql> insert into course values ('c1','Core',7000), ('c2','Linux',8000), ('c3','Data Structure',10000), ('c4','Python',12000), ('c5','Dot Net',null);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from course;
++-----+----------------+-------+
+| cid | cname          | fees  |
++-----+----------------+-------+
+| c1  | Core           |  7000 |
+| c2  | Linux          |  8000 |
+| c3  | Data Structure | 10000 |
+| c4  | Python         | 12000 |
+| c5  | Dot Net        |  NULL |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+ 
+ 
+ 
+
+Try adding following data in the trainer table
+ (t2,'Mahesh',null,16000,12)
+ 
+mysql> insert into trainer values('t2','Mahesh',null,16000,12);
+ERROR 1062 (23000): Duplicate entry 't2' for key 'trainer.PRIMARY'
+ 
+ (t8,'Meena',c3,25000,11)
+ 
+mysql> insert into trainer values('t8','Meena','c3',25000,11);
+Query OK, 1 row affected (0.00 sec)
+ 
+ (t9,null,c2,30000,10)
+ 
+mysql> insert into trainer values('t9',null,'c2',30000,10);
+ERROR 1048 (23000): Column 'tname' cannot be null
+ 
+ (t10,'Soham',c2,35000,8)
+ 
+mysql> insert into trainer values('t10','Soham','c2',35000,8);
+ERROR 3819 (HY000): Check constraint 'trainer_chk_1' is violated.
+ 
+ (t11,'Anil',c3,null,11)
+ 
+mysql> insert into trainer values('t11','Anil','c3',null,11);
+Query OK, 1 row affected (0.00 sec)
+
+
+Try on delete set null.
+
+mysql> delete from course where cid='c2';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | NULL |  19000 |         15 |
+| t11 | Anil   | c3   |   NULL |         11 |
+| t2  | Rajan  | c1   |  21000 |         14 |
+| t3  | Shruti | NULL |  20500 |         13 |
+| t4  | Arti   | NULL |  21500 |         12 |
+| t5  | Sameer | c3   |  25156 |         11 |
+| t6  | Sanjay | NULL |  22500 |         14 |
+| t7  | Soha   | NULL |  23000 |         16 |
+| t8  | Meena  | c3   |  25000 |         11 |
++-----+--------+------+--------+------------+
+9 rows in set (0.00 sec)
+
+
+
+Drop table trainer and create it again with on delete cascade clause
+
+mysql> drop table trainer;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table trainer(tid varchar(10), tname varchar(25) not NULL, cid varchar(10), salary int default 20000, experience int check(experience > 10), constraint pk_tid primary key (tid), constraint fk_cid foreign key (cid) references course(cid) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+
+
+Try on delete  cascade on trainer table.
+
+mysql> create table trainer(tid varchar(10), tname varchar(25) not NULL, cid varchar(10), salary int default 20000, experience int check(experience > 10), constraint pk_tid primary key (tid), constraint fk_cid foreign key (cid) references course(cid) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into trainer values('t1','Amit','c2',19000,15),('t2','Rajan','c1',21000,14),('t3','Shruti','c2',20500,13),('t4','Arti','c2',21500,12),('t5','Sameer','c3',25156, 11);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> insert into trainer(tid, tname, salary, experience) values ('t6','Sanjay',22500, 14),('t7','Soha',23000, 16);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |  19000 |         15 |
+| t2  | Rajan  | c1   |  21000 |         14 |
+| t3  | Shruti | c2   |  20500 |         13 |
+| t4  | Arti   | c2   |  21500 |         12 |
+| t5  | Sameer | c3   |  25156 |         11 |
+| t6  | Sanjay | NULL |  22500 |         14 |
+| t7  | Soha   | NULL |  23000 |         16 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+mysql> delete from course where cid = 'c2';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t2  | Rajan  | c1   |  21000 |         14 |
+| t5  | Sameer | c3   |  25156 |         11 |
+| t6  | Sanjay | NULL |  22500 |         14 |
+| t7  | Soha   | NULL |  23000 |         16 |
++-----+--------+------+--------+------------+
+4 rows in set (0.00 sec)
+
+
+
+
+Assignment – 4
+--------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> describe customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| custid   | int         | YES  |     | NULL    |       |
+| cname    | varchar(15) | YES  |     | NULL    |       |
+| location | varchar(12) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> describe vehicle;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| vid      | int         | YES  |     | NULL    |       |
+| vname    | varchar(20) | YES  |     | NULL    |       |
+| price    | int         | YES  |     | NULL    |       |
+| discount | int         | YES  |     | NULL    |       |
+| milage   | int         | YES  |     | NULL    |       |
+| details  | varchar(70) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> describe salesman;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| sid        | int         | YES  |     | NULL    |       |
+| sname      | varchar(12) | YES  |     | NULL    |       |
+| city       | varchar(12) | YES  |     | NULL    |       |
+| experience | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table customer add constraint pk_custid primary key(custid);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer modify cname varchar(15) not NULL;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table vehicle add constraint pk_vid primary key(vid);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table vehicle modify vname varchar(20) not NULL;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table salesman add constraint pk_sid primary key(sid);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table salesman modify sname varchar(12) not NULL;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| custid   | int         | NO   | PRI | NULL    |       |
+| cname    | varchar(15) | NO   |     | NULL    |       |
+| location | varchar(12) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> describe vehicle;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| vid      | int         | NO   | PRI | NULL    |       |
+| vname    | varchar(20) | NO   |     | NULL    |       |
+| price    | int         | YES  |     | NULL    |       |
+| discount | int         | YES  |     | NULL    |       |
+| milage   | int         | YES  |     | NULL    |       |
+| details  | varchar(70) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> describe salesman;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| sid        | int         | NO   | PRI | NULL    |       |
+| sname      | varchar(12) | NO   |     | NULL    |       |
+| city       | varchar(12) | YES  |     | NULL    |       |
+| experience | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+1. Display tid,custid,customer name and buy_price.
+
+mysql> create table custvehicle(tid int auto_increment, custid int, vid int, sid int, buyprice int, constraint pk_tid primary key(tid), constraint fk_custid foreign key(custid) references customer(custid), constraint fk_vid foreign key(vid) references vehicle(vid), constraint fk_sid foreign key(sid) references salesman(sid), constraint check(buyprice>0));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into custvehicle(custid, vid, sid, buyprice) values(1,1,10,75000),(1,2,10,79000),(2,3,11,80000),(3,3,11,75000),(3,2,10,800000);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from custvehicle;
++-----+--------+------+------+----------+
+| tid | custid | vid  | sid  | buyprice |
++-----+--------+------+------+----------+
+|   1 |      1 |    1 |   10 |    75000 |
+|   2 |      1 |    2 |   10 |    79000 |
+|   3 |      2 |    3 |   11 |    80000 |
+|   4 |      3 |    3 |   11 |    75000 |
+|   5 |      3 |    2 |   10 |   800000 |
++-----+--------+------+------+----------+
+5 rows in set (0.00 sec)
+
+
+
+2.Dispaly tid,custid,customer name,vid,vehicle name, sid, salesmen name and buy_price for
+vehicle.
+
+mysql> select cv.tid, cv.custid, c.cname "Customer name", cv.vid, v.vname "Vehcile Name", cv.sid, s.sna
+me "Salesman Name", cv.buyprice from custvehicle cv, customer c, vehicle v, salesman s where cv.custid=
+c.custid and cv.vid=v.vid and cv.sid=s.sid;
++-----+--------+---------------+------+--------------+------+---------------+----------+
+| tid | custid | Customer name | vid  | Vehcile Name | sid  | Salesman Name | buyprice |
++-----+--------+---------------+------+--------------+------+---------------+----------+
+|   1 |      1 | Mukul         |    1 | Activa       |   10 | Rajesh        |    75000 |
+|   2 |      1 | Mukul         |    2 | Santro       |   10 | Rajesh        |    79000 |
+|   5 |      3 | Kishor        |    2 | Santro       |   10 | Rajesh        |   800000 |
+|   3 |      2 | Ganesh        |    3 | Yamaha       |   11 | Seema         |    80000 |
+|   4 |      3 | Kishor        |    3 | Yamaha       |   11 | Seema         |    75000 |
++-----+--------+---------------+------+--------------+------+---------------+----------+
+5 rows in set (0.00 sec)
+
+
+
+
+Consider emp, dept and salgrade tables to answer following queries.
+
+1.List details of employees as ename,deptno,dname,sal,comm. 
+
+mysql> select e.ename "Employee Name", d.deptno "Deprtment Number", d.dname "Deprtment Name", e.sal "Salary", e.comm "Commision" from emp e, dept d where e.deptno=d.deptno;
++---------------+------------------+----------------+---------+-----------+
+| Employee Name | Deprtment Number | Deprtment Name | Salary  | Commision |
++---------------+------------------+----------------+---------+-----------+
+| hike          |               20 | RESEARCH       | 5001.01 |      NULL |
+| SMITH         |               20 | RESEARCH       |  924.00 |      NULL |
+| ALLEN         |               30 | SALES          | 1848.00 |    300.00 |
+| WARD          |               30 | SALES          | 1443.75 |    500.00 |
+| JONES         |               20 | RESEARCH       | 3436.13 |      NULL |
+| MARTIN        |               30 | SALES          | 1443.75 |   1400.00 |
+| BLAKE         |               30 | SALES          | 3291.75 |      NULL |
+| mike          |               30 | SALES          | 5001.01 |      NULL |
+| CLARK         |               10 | ACCOUNTING     | 2829.75 |      NULL |
+| SCOTT         |               20 | RESEARCH       | 3465.00 |      NULL |
+| KING          |               10 | ACCOUNTING     | 5775.00 |      NULL |
+| TURNER        |               30 | SALES          | 1732.50 |      0.00 |
+| ADAMS         |               20 | RESEARCH       | 1270.50 |      NULL |
+| JAMES         |               30 | SALES          | 1097.25 |      NULL |
+| FORD          |               20 | RESEARCH       | 3465.00 |      NULL |
+| MILLER        |               10 | ACCOUNTING     | 1501.50 |      NULL |
++---------------+------------------+----------------+---------+-----------+
+16 rows in set (0.00 sec)
+
+
+
+
+2. Display details of employees as empno,ename,sal,job, deptno and dept name for all employees
+working as a clerk or salesman and earning more than 2000 .
+
+
+mysql> select e.empno "Employee Number", e.ename "Employee Name", e.sal "Salary", e.job "Job", d.deptno
+ "Deprtment Number", d.dname "Deprtment Name" from emp e, dept d where e.deptno=d.deptno and e.job in ('clerk', 'salesman') and e.sal >2000 ;
+Empty set (0.00 sec)
+
+mysql> select e.empno "Employee Number", e.ename "Employee Name", e.sal "Salary", e.job "Job", d.deptno "Deprtment Number", d.dname "Deprtment Name" from emp e, dept d where e.deptno=d.deptno and e.job in ('clerk', 'salesman') and e.sal >1500 ;
++-----------------+---------------+---------+----------+------------------+----------------+
+| Employee Number | Employee Name | Salary  | Job      | Deprtment Number | Deprtment Name |
++-----------------+---------------+---------+----------+------------------+----------------+
+|            7934 | MILLER        | 1501.50 | CLERK    |               10 | ACCOUNTING     |
+|            7844 | TURNER        | 1732.50 | SALESMAN |               30 | SALES          |
+|            7499 | ALLEN         | 1848.00 | SALESMAN |               30 | SALES          |
++-----------------+---------------+---------+----------+------------------+----------------+
+3 rows in set (0.00 sec)
+
+
+3. List details of employees as ename,deptno,dname,sal,comm working in dept 20 and 30 who did
+not get any commission.  
+
+mysql> select e.ename "Employee Name", d.deptno "Deprtment Number", d.dname "Deprtment Name", e.sal "Sa
+lary", e.comm "Commision" from emp e, dept d where e.deptno=d.deptno and e.deptno in (20, 30) and (e.co
+mm = 0 or e.comm is NULL) ;
++---------------+------------------+----------------+---------+-----------+
+| Employee Name | Deprtment Number | Deprtment Name | Salary  | Commision |
++---------------+------------------+----------------+---------+-----------+
+| FORD          |               20 | RESEARCH       | 3465.00 |      NULL |
+| ADAMS         |               20 | RESEARCH       | 1270.50 |      NULL |
+| SCOTT         |               20 | RESEARCH       | 3465.00 |      NULL |
+| JONES         |               20 | RESEARCH       | 3436.13 |      NULL |
+| SMITH         |               20 | RESEARCH       |  924.00 |      NULL |
+| hike          |               20 | RESEARCH       | 5001.01 |      NULL |
+| JAMES         |               30 | SALES          | 1097.25 |      NULL |
+| TURNER        |               30 | SALES          | 1732.50 |      0.00 |
+| mike          |               30 | SALES          | 5001.01 |      NULL |
+| BLAKE         |               30 | SALES          | 3291.75 |      NULL |
++---------------+------------------+----------------+---------+-----------+
+10 rows in set (0.00 sec)
+
+ 
+4. Display ename,sal and grade of employee(use salgrade table).
+
+mysql> select e.ename "Employee Name", e.sal "Salary", s.grade "Grade" from emp e, salgrade s where e.sal between s.losal and s.hisal ;                                                                       +---------------+---------+-------+
+| Employee Name | Salary  | Grade |
++---------------+---------+-------+
+| hike          | 5001.01 |     5 |
+| SMITH         |  924.00 |     1 |
+| ALLEN         | 1848.00 |     3 |
+| WARD          | 1443.75 |     3 |
+| JONES         | 3436.13 |     5 |
+| MARTIN        | 1443.75 |     3 |
+| BLAKE         | 3291.75 |     5 |
+| mike          | 5001.01 |     5 |
+| CLARK         | 2829.75 |     4 |
+| SCOTT         | 3465.00 |     5 |
+| KING          | 5775.00 |     5 |
+| TURNER        | 1732.50 |     3 |
+| ADAMS         | 1270.50 |     2 |
+| JAMES         | 1097.25 |     1 |
+| FORD          | 3465.00 |     5 |
+| MILLER        | 1501.50 |     3 |
++---------------+---------+-------+
+16 rows in set (0.00 sec)
+
+
+5. Display the information of department i.e deptno, dname and loc in which clerks are working. 
+
+mysql> select  d.deptno "Deprtment Number", d.dname "Deprtment Name", d.loc "Location" from dept d,emp
+e where e.deptno=d.deptno and e.job='clerk' ;
++------------------+----------------+----------+
+| Deprtment Number | Deprtment Name | Location |
++------------------+----------------+----------+
+|               10 | ACCOUNTING     | NEW YORK |
+|               20 | RESEARCH       | DALLAS   |
+|               20 | RESEARCH       | DALLAS   |
+|               30 | SALES          | CHICAGO  |
++------------------+----------------+----------+
+4 rows in set (0.00 sec)
+
+
+6. Try out all set operators as per the demo
+
+mysql> select deptno,ename from emp union select deptno,dname from dept;
++--------+------------+
+| deptno | ename      |
++--------+------------+
+|     20 | hike       |
+|     20 | SMITH      |
+|     30 | ALLEN      |
+|     30 | WARD       |
+|     20 | JONES      |
+|     30 | MARTIN     |
+|     30 | BLAKE      |
+|     30 | mike       |
+|     10 | CLARK      |
+|     20 | SCOTT      |
+|     10 | KING       |
+|     30 | TURNER     |
+|     20 | ADAMS      |
+|     30 | JAMES      |
+|     20 | FORD       |
+|     10 | MILLER     |
+|     54 | Mukul      |
+|     54 | munur      |
+|     10 | ACCOUNTING |
+|     20 | RESEARCH   |
+|     30 | SALES      |
+|     40 | OPERATIONS |
++--------+------------+
+22 rows in set (0.00 sec)
+ 
+mysql> select deptno,ename from emp union all select deptno,dname from dept;
++--------+------------+
+| deptno | ename      |
++--------+------------+
+|     20 | hike       |
+|     20 | SMITH      |
+|     30 | ALLEN      |
+|     30 | WARD       |
+|     20 | JONES      |
+|     30 | MARTIN     |
+|     30 | BLAKE      |
+|     30 | mike       |
+|     10 | CLARK      |
+|     20 | SCOTT      |
+|     10 | KING       |
+|     30 | TURNER     |
+|     20 | ADAMS      |
+|     30 | JAMES      |
+|     20 | FORD       |
+|     10 | MILLER     |
+|     54 | Mukul      |
+|     54 | munur      |
+|     10 | ACCOUNTING |
+|     20 | RESEARCH   |
+|     30 | SALES      |
+|     40 | OPERATIONS |
++--------+------------+
+22 rows in set (0.00 sec)
+
+7. Try out on delete set null/ cascade
+
+mysql> alter table dept add constraint pk_deptno primary key(deptno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp add constraint pk_empno primary key(empno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp  add constraint fk_deptno foreign key(deptno) references dept(deptno) on delete set NULL;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> delete from dept where deptno = 10;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |   NULL |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |   NULL |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |   NULL |
++-------+--------+-----------+------+------------+---------+---------+--------+
+16 rows in set (0.00 sec)
+
+mysql> alter table emp drop constraint fk_deptno;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp  add constraint fk_deptno foreign key(deptno) references dept(deptno) on delete cascade;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> delete from dept where deptno = 20;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |   NULL |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |   NULL |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |   NULL |
++-------+--------+-----------+------+------------+---------+---------+--------+
+10 rows in set (0.00 sec)
+
+
+On update set null/cascade
+
+mysql> alter table emp drop constraint fk_deptno;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp  add constraint fk_deptno foreign key(deptno) references dept(deptno) on update set NULL;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> update dept set deptno=70 where deptno=10;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |   NULL |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |   NULL |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |   NULL |
++-------+--------+-----------+------+------------+---------+---------+--------+
+16 rows in set (0.00 sec)
+
+mysql> alter table emp drop constraint fk_deptno;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp add constraint fk_deptno foreign key(deptno) references dept(deptno) on update cascade;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> update dept set deptno=80 where deptno=30;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     80 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     80 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     80 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     80 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     80 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |   NULL |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |   NULL |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     80 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     80 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |   NULL |
++-------+--------+-----------+------+------------+---------+---------+--------+
+16 rows in set (0.00 sec)
+
+8. Try all the constraints
+
+mysql> alter table dept add constraint pk_deptno primary key(deptno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp add constraint pk_empno primary key(empno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp  add constraint fk_deptno foreign key(deptno) references dept(deptno) on update set NULL;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp drop constraint fk_deptno;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp add constraint fk_deptno foreign key(deptno) references dept(deptno) on update cascade;
+Query OK, 16 rows affected (0.04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table emp add constraint check (sal>0);
+Query OK, 16 rows affected (0.05 sec)
+Records: 16  Duplicates: 0  Warnings: 0

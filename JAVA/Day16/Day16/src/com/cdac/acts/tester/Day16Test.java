@@ -1,0 +1,29 @@
+package com.cdac.acts.tester;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Day16Test {
+
+	public static void main(String[] args) {
+		try(Scanner sc = new Scanner(System.in)){
+			System.out.println("Enter The file Path : ");
+			String filePath = sc.next();
+			
+			File file = new File(filePath);
+			
+			if(file.isDirectory()) {
+				System.out.println("This Is Directory Path");
+				String[] fileList = file.list();
+				for(String a : fileList) {
+					System.out.println(a);
+				}
+			}else {
+				System.out.println("This is File");
+			}
+			
+		}
+
+	}
+
+}

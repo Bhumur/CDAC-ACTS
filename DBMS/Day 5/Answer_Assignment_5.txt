@@ -1,0 +1,529 @@
+
+Name : Bhumur Agrawal
+PRn : 250240120047
+
+
+
+
+
+Assignment – 5
+--------------------------------------------------------------------------------
+
+
+
+1. List sum of salary for each department.
+
+mysql> select deptno "Department Number" ,sum(sal) " Sum of Salary" from emp group by deptno;
++-------------------+---------------+
+| Department Number | Sum of Salary |
++-------------------+---------------+
+|                20 |      17561.64 |
+|                30 |      15858.01 |
+|                10 |      10106.25 |
++-------------------+---------------+
+3 rows in set, 1 warning (0.00 sec)
+
+
+
+
+2. List department wise sum sal only if the sum for any department is  &gt; 10000.
+
+mysql> select deptno "Department Number" ,sum(sal) " Sum of Salary" from emp group by deptno having sum(sal)>10000;
++-------------------+---------------+
+| Department Number | Sum of Salary |
++-------------------+---------------+
+|                20 |      17561.64 |
+|                30 |      15858.01 |
+|                10 |      10106.25 |
++-------------------+---------------+
+3 rows in set, 1 warning (0.00 sec)
+
+mysql> select deptno "Department Number" ,sum(sal) " Sum of Salary" from emp group by deptno having sum(sal)>12000;
++-------------------+---------------+
+| Department Number | Sum of Salary |
++-------------------+---------------+
+|                20 |      17561.64 |
+|                30 |      15858.01 |
++-------------------+---------------+
+2 rows in set, 1 warning (0.00 sec)
+
+
+
+
+3. Display job wise sum of salary for all departments (excluding dept 30) whose sum salary is &gt;9000.
+
+mysql> select job "Job" ,sum(sal) " Sum of Salary" from emp where deptno != 30 group by job having sum(sal)>9000;
+Empty set, 1 warning (0.00 sec)
+
+mysql> select job "Job" ,sum(sal) " Sum of Salary" from emp where deptno != 30 group by job having sum(sal)>900;
++-----------+---------------+
+| Job       | Sum of Salary |
++-----------+---------------+
+| SOFTWARE  |       5001.01 |
+| CLERK     |       3696.00 |
+| MANAGER   |       6265.88 |
+| ANALYST   |       6930.00 |
+| PRESIDENT |       5775.00 |
++-----------+---------------+
+5 rows in set, 1 warning (0.00 sec)
+
+
+
+
+4. Display job wise max sal only for managers, clerks, salesman working in dept 10 and 20. Sort the data by des order of the max salary.
+
+mysql> select job "Job" ,max(sal) "Max Salary" from emp where deptno in (10,20) and job in ('clerk','s
+alesman','manager') group by job order by max(sal) desc;
++---------+------------+
+| Job     | Max Salary |
++---------+------------+
+| MANAGER |    3436.13 |
+| CLERK   |    1501.50 |
++---------+------------+
+2 rows in set (0.00 sec)
+
+
+
+
+5. Display job wise number of employees in all the department with sum salary &gt; 3000
+
+mysql> select job "Job" ,count(*) "Number of employee" from emp group by job having sum(sal)>3000;
++-----------+--------------------+
+| Job       | Number of employee |
++-----------+--------------------+
+| SOFTWARE  |                  2 |
+| CLERK     |                  4 |
+| SALESMAN  |                  4 |
+| MANAGER   |                  3 |
+| ANALYST   |                  2 |
+| PRESIDENT |                  1 |
++-----------+--------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+6. Display the department number having atleast 3 employees in it.
+
+mysql> select deptno "Department number" from emp group by deptno having count(*)>=3;
++-------------------+
+| Department number |
++-------------------+
+|                20 |
+|                30 |
+|                10 |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select deptno "Department number" from emp group by deptno having count(*)>=5;
++-------------------+
+| Department number |
++-------------------+
+|                20 |
+|                30 |
++-------------------+
+2 rows in set (0.00 sec)
+
+
+8. Display deptno, salary sum and min(sal) for all employees who are managers.
+
+mysql> select deptno "Department number", sum(sal) "Sum of Salary", min(sal) "Minimum sal" from emp wh
+ere job = 'manager' group by deptno;
++-------------------+---------------+-------------+
+| Department number | Sum of Salary | Minimum sal |
++-------------------+---------------+-------------+
+|                20 |       3436.13 |     3436.13 |
+|                30 |       3291.75 |     3291.75 |
+|                10 |       2829.75 |     2829.75 |
++-------------------+---------------+-------------+
+3 rows in set (0.00 sec)
+
+
+
+
+9. Find sum(sal) for each dept having more than 2 clerk. 
+
+mysql> select deptno "Department Number", sum(sal) "Sum of Salary" from emp where deptno in (select deptno from emp where job='clerk' group by deptno having count(*)>2) group by deptno;
+Empty set (0.00 sec)
+
+mysql> select deptno "Department Number", sum(sal) "Sum of Salary" from emp where deptno in (select deptno from emp where job='clerk' group by deptno having count(*)>1) group by deptno;
++-------------------+---------------+
+| Department Number | Sum of Salary |
++-------------------+---------------+
+|                20 |      17561.64 |
++-------------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select deptno "Department Number", sum(sal) "Sum of Salary" from emp where deptno in (select deptno from emp where job='clerk' group by deptno having count(*)>0) group by deptno;
++-------------------+---------------+
+| Department Number | Sum of Salary |
++-------------------+---------------+
+|                20 |      17561.64 |
+|                30 |      15858.01 |
+|                10 |      10106.25 |
++-------------------+---------------+
+3 rows in set (0.00 sec)
+
+
+
+10. Calculate how many employees earn sal more than 1500 in each dept.
+
+mysql> select deptno "Department number", count(*) "Number of employee" from emp where sal>1500 group
+by deptno;
++-------------------+--------------------+
+| Department number | Number of employee |
++-------------------+--------------------+
+|                20 |                  4 |
+|                30 |                  4 |
+|                10 |                  3 |
++-------------------+--------------------+
+3 rows in set (0.00 sec)
+
+ 
+
+
+
+11. Display all employees who earn sal more that Allen earns.
+
+mysql> select * from emp where sal > (select sal from emp where ename = 'Allen');
++-------+-------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+-----------+------+------------+---------+------+--------+
+|  4652 | hike  | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 | NULL |     20 |
+|  7566 | JONES | MANAGER   | 7839 | 1981-04-02 | 3436.13 | NULL |     20 |
+|  7698 | BLAKE | MANAGER   | 7839 | 1981-05-01 | 3291.75 | NULL |     30 |
+|  7777 | mike  | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 | NULL |     30 |
+|  7782 | CLARK | MANAGER   | 7839 | 1981-06-09 | 2829.75 | NULL |     10 |
+|  7788 | SCOTT | ANALYST   | 7566 | 1982-12-09 | 3465.00 | NULL |     20 |
+|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5775.00 | NULL |     10 |
+|  7902 | FORD  | ANALYST   | 7566 | 1981-12-03 | 3465.00 | NULL |     20 |
++-------+-------+-----------+------+------------+---------+------+--------+
+8 rows in set (0.00 sec)
+
+
+12. Display all employees who are working in Smith's department.
+
+mysql> select * from emp where deptno = (select deptno from emp where ename = 'smith');
++-------+-------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+----------+------+------------+---------+------+--------+
+|  4652 | hike  | SOFTWARE | 7902 | 1982-05-16 | 5001.01 | NULL |     20 |
+|  7369 | SMITH | CLERK    | 7902 | 1980-12-17 |  924.00 | NULL |     20 |
+|  7566 | JONES | MANAGER  | 7839 | 1981-04-02 | 3436.13 | NULL |     20 |
+|  7788 | SCOTT | ANALYST  | 7566 | 1982-12-09 | 3465.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK    | 7788 | 1983-01-12 | 1270.50 | NULL |     20 |
+|  7902 | FORD  | ANALYST  | 7566 | 1981-12-03 | 3465.00 | NULL |     20 |
++-------+-------+----------+------+------------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+13. Display all employees who earn salary &lt; Scott and salary &gt; Adams sal.
+
+mysql> select * from emp where sal < (select sal from emp where ename = 'scott') and sal > (select sal
+from emp where ename = 'adams');
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER  | 7839 | 1981-06-09 | 2829.75 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1501.50 |    NULL |     10 |
++-------+--------+----------+------+------------+---------+---------+--------+
+8 rows in set (0.00 sec)
+
+
+14. Display all employees with salary &gt; either Ward's  salary or Blake's sal.
+
+mysql> select * from emp where sal > (select sal from emp where ename = 'ward') or sal > (select sal fr
+om emp where ename = 'blake');
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |   NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 | 300.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |   NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |   NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |   NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |   NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |   NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |   NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |   0.00 |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |   NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |   NULL |     10 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+11 rows in set (0.00 sec)
+
+
+15. Display all employees who earn more than average sal of dept 10.
+
+mysql> select * from emp where sal > (select avg(sal) from emp where deptno=10);
++-------+-------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+-----------+------+------------+---------+------+--------+
+|  4652 | hike  | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 | NULL |     20 |
+|  7566 | JONES | MANAGER   | 7839 | 1981-04-02 | 3436.13 | NULL |     20 |
+|  7777 | mike  | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 | NULL |     30 |
+|  7788 | SCOTT | ANALYST   | 7566 | 1982-12-09 | 3465.00 | NULL |     20 |
+|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5775.00 | NULL |     10 |
+|  7902 | FORD  | ANALYST   | 7566 | 1981-12-03 | 3465.00 | NULL |     20 |
++-------+-------+-----------+------+------------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+
+
+
+16. Display all employees who are working in research department.
+
+mysql> select * from emp where deptno = (select deptno from dept where dname='research');
++-------+-------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+----------+------+------------+---------+------+--------+
+|  4652 | hike  | SOFTWARE | 7902 | 1982-05-16 | 5001.01 | NULL |     20 |
+|  7369 | SMITH | CLERK    | 7902 | 1980-12-17 |  924.00 | NULL |     20 |
+|  7566 | JONES | MANAGER  | 7839 | 1981-04-02 | 3436.13 | NULL |     20 |
+|  7788 | SCOTT | ANALYST  | 7566 | 1982-12-09 | 3465.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK    | 7788 | 1983-01-12 | 1270.50 | NULL |     20 |
+|  7902 | FORD  | ANALYST  | 7566 | 1981-12-03 | 3465.00 | NULL |     20 |
++-------+-------+----------+------+------------+---------+------+--------+
+6 rows in set (0.00 sec)
+
+
+
+17. Display deptno, sum of salary  and min(sal) for all employees who are managers.
+
+mysql> select deptno "Department Number", sum(sal) "Sum of Salary", min(sal) "Minumum Salary" from emp
+where job = 'manager' group by deptno;
++-------------------+---------------+----------------+
+| Department Number | Sum of Salary | Minumum Salary |
++-------------------+---------------+----------------+
+|                20 |       3436.13 |        3436.13 |
+|                30 |       3291.75 |        3291.75 |
+|                10 |       2829.75 |        2829.75 |
++-------------------+---------------+----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+18. Write a query which will display dept no and dept names to which no employee is assigned 
+
+mysql> select deptno "Department Number", dname "Department Name" from dept where deptno not in (select deptno from emp);
++-------------------+-----------------+
+| Department Number | Department Name |
++-------------------+-----------------+
+|                40 | OPERATIONS      |
++-------------------+-----------------+
+1 row in set (0.00 sec)
+
+
+
+dept .Use emp and dept table.
+Create following tables and solve the  queries
+1. create table category(cid int primary key auto_increment, cname varchar (15) unique not null, description varchar(30))
+-----------------------------------------------------          
+cid cname description
+------------------------------------------------------
+1 chips very crunchy
+2 chocolate very chocolaty
+3 snacks yummy
+4 cold drinks thanda thanda cool cool
+
+create table category(cid int auto_increment, cname varchar(15) unique not null,description varchar(30), constraint pk_cid  primary key(cid));
+Query OK, 0 rows affected (0.02 sec)
+
+insert into category(cname, description) values('chips','very crunchy'), ('chocolate','very choc
+olaty'), ('snacks','yummy'), ('cold drinks','thanda thanda cool cool');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> describe category;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| cid         | int         | NO   | PRI | NULL    | auto_increment |
+| cname       | varchar(15) | NO   | UNI | NULL    |                |
+| description | varchar(30) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from category;
++-----+-------------+-------------------------+
+| cid | cname       | description             |
++-----+-------------+-------------------------+
+|   1 | chips       | very crunchy            |
+|   2 | chocolate   | very chocolaty          |
+|   3 | snacks      | yummy                   |
+|   4 | cold drinks | thanda thanda cool cool |
++-----+-------------+-------------------------+
+4 rows in set (0.00 sec)
+
+2. create table Product(pid int primary key, pname varchar (20), price float (6,2) default 20.00, qty int check(qty&gt;0)  cid int  ,   sid int,   constraint fk_cid foreign key(cid) references category(cid) on delete set null, constraint fk_sid foreign key(sid) references salesman(sid));
+--------------------------------------------------------------------------------------------
+prodid pname qty price catid sid
+----------------------------------------------------------------------------------------------
+123 lays  30 30.00 1 12
+111 pepsi 40 50.00 4 11
+134 nachos 50 50.00 1 12
+124 dairy milk 40 60.00 2 14
+125 pringles 40 60.00 1 14
+213 Sketch Pens 56 150.00 null 11
+167 eraser 90 5.00 null null
+
+mysql> create table product(pid int,pname varchar(20),price float(6,2) default 20.00,qty int check(qty>0),cid int,sid int,constraint pk_prid primary key(pid),constraint fk_1cid foreign key(cid) references category(cid) on delete set null,constraint fk_1sid foreign key(sid) references salesman(sid));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+
+
+(123,'lays',30,30.00,1,12),(111,'pepsi',40,50.00,4,11),(134,'nachos',50,50.00,1,12),(124,'dairy milk',40,60.00,2,14),(125,'pringles',40,60.00,1,14),(213,'Sketch Pens',56,150.00,null,11),(167,'eraser',90,5.00,null,null);
+
+
+/// first add salesman table
+
+mysql> insert into product values (123,'lays',30,30.00,1,12),(111,'pepsi',40,50.00,4,11),(134,'nachos',50,50.00,1,12),(124,'dairy milk',40,60.00,2,14),(125,'pringles',40,60.00,1,14),(213,'Sketch Pens',56,150.00,null,11),(167,'eraser',90,5.00,null,null);
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+
+
+3. create table salesman(sid int primary key, sname varchar (15) unique not null, city varchar(15))
+---------------------------------
+sid sname city
+---------------------------------
+(11,'Rahul','Pune'),(12,'Kirti','Mumbai'),(13,'Prasad,'Nashik'),(14,'Arnav','Amravati')
+
+
+
+
+1. List all pid, pname, cid, cname  with category chips
+
+mysql> select p.pid, p.pname, c.cid, c.cname from product p, category c where p.cid=c.cid and c.cname='chips';
++-----+----------+-----+-------+
+| pid | pname    | cid | cname |
++-----+----------+-----+-------+
+| 123 | lays     |   1 | chips |
+| 125 | pringles |   1 | chips |
+| 134 | nachos   |   1 | chips |
++-----+----------+-----+-------+
+3 rows in set (0.00 sec)
+
+
+
+2. Display all products sold by kirti
+
+mysql> select p.pid, p.pname, p.price, p.qty, s.sid, s.sname from product p, salesman s where p.sid=s.sid and s.sname='kriti';
++-----+--------+-------+------+-----+-------+
+| pid | pname  | price | qty  | sid | sname |
++-----+--------+-------+------+-----+-------+
+| 123 | lays   | 30.00 |   30 |  12 | Kriti |
+| 134 | nachos | 50.00 |   50 |  12 | Kriti |
++-----+--------+-------+------+-----+-------+
+2 rows in set (0.00 sec)
+
+
+3. Display all salesmen who did not sell any product
+
+mysql> select sid, sname from salesman where sid not in (select distinct ifnull(sid,0) from product);
++-----+--------+
+| sid | sname  |
++-----+--------+
+|  10 | Rajesh |
+|  13 | Prasad |
++-----+--------+
+2 rows in set (0.00 sec)
+
+
+4. Display all category for which no product is assigned
+
+mysql> select cid, cname from category where cid not in (select distinct ifnull(cid,0) from product);
++-----+--------+
+| cid | cname  |
++-----+--------+
+|   3 | snacks |
++-----+--------+
+1 row in set (0.00 sec)
+
+
+
+5. Display all products to which  category is  not assigned
+
+mysql> select * from product where cid is NULL;
++-----+-------------+-------+------+------+------+
+| pid | pname       | price | qty  | cid  | sid  |
++-----+-------------+-------+------+------+------+
+| 167 | eraser      | 90.00 |    5 | NULL | NULL |
+| 213 | Sketch Pens | 56.00 |  150 | NULL |   11 |
++-----+-------------+-------+------+------+------+
+2 rows in set (0.00 sec)
+
+
+6. List all salesmen who live in city where  name starts with P or N
+
+mysql> select * from salesman where regexp_like(city, '^[p,n].*$');
++-----+--------+--------+------------+
+| sid | sname  | city   | experience |
++-----+--------+--------+------------+
+|  11 | Rahul  | Pune   |          8 |
+|  13 | Prasad | Nashik |          2 |
++-----+--------+--------+------------+
+2 rows in set (0.00 sec)
+
+19. Try all TCL commands.
+
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from salesman;
++-----+--------+----------+------------+
+| sid | sname  | city     | experience |
++-----+--------+----------+------------+
+|  10 | Rajesh | mumbai   |          5 |
+|  11 | Rahul  | Pune     |          8 |
+|  12 | Kriti  | Mumbai   |          7 |
+|  13 | Prasad | Nashik   |          2 |
+|  14 | Arnav  | Amravati |       NULL |
++-----+--------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into salesman values(15, 'Bhumur', 'Jaipur', 10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from salesman;
++-----+--------+----------+------------+
+| sid | sname  | city     | experience |
++-----+--------+----------+------------+
+|  10 | Rajesh | mumbai   |          5 |
+|  11 | Rahul  | Pune     |          8 |
+|  12 | Kriti  | Mumbai   |          7 |
+|  13 | Prasad | Nashik   |          2 |
+|  14 | Arnav  | Amravati |       NULL |
+|  15 | Bhumur | Jaipur   |         10 |
++-----+--------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> rollback to a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from salesman;
++-----+--------+----------+------------+
+| sid | sname  | city     | experience |
++-----+--------+----------+------------+
+|  10 | Rajesh | mumbai   |          5 |
+|  11 | Rahul  | Pune     |          8 |
+|  12 | Kriti  | Mumbai   |          7 |
+|  13 | Prasad | Nashik   |          2 |
+|  14 | Arnav  | Amravati |       NULL |
++-----+--------+----------+------------+
+5 rows in set (0.00 sec)
+
+

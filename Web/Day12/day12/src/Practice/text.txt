@@ -1,0 +1,6 @@
+
+
+
+Access Context:
+1) Consumer (Use inside JSX)
+2) useContext(Use )

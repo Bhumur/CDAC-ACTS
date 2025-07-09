@@ -1,0 +1,29 @@
+package com.cdac.acts.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.cdac.acts.account.Account;
+import com.cdac.acts.enums.AccountTypeEnum;
+
+public class DataUtil {
+	public static Map<String,Account> accountMap(){
+		Map<String,Account> accounts = new HashMap<>();
+		
+		accounts.put("102", new Account("102","Mukul","mukul@gmail.com","9875678557",567816.56,AccountTypeEnum.valueOf("CA")));
+		
+		
+		accounts.put("105", new Account("105","Pranav","pranav@gmail.com","868575589",186866.56,AccountTypeEnum.valueOf("CA")));
+		accounts.put("101", new Account("101","Bhumur","bhumur@gmail.com","9462796017",8756616.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("104", new Account("104","Jyotijai","jyotijai@gmail.com","757575896",857816.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("106", new Account("106","Uday","uday@gmail.com","374897286",168686.56,AccountTypeEnum.valueOf("FD")));
+		
+		accounts.put("103", new Account("103","Pratik","prakit@gmail.com","757576017",868816.56,AccountTypeEnum.valueOf("FD")));
+		accounts.put("107", new Account("107","Shivansh","shivansh@gmail.com","7865828686",186586.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("105", new Account("105","Pranav","pranav@gmail.com","868575589",186866.56,AccountTypeEnum.valueOf("CA")));
+		accounts.put("101", new Account("101","Bhumur","bhumur@gmail.com","9462796017",8756616.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("104", new Account("104","Jyotijai","jyotijai@gmail.com","757575896",857816.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("106", new Account("106","Uday","uday@gmail.com","374897286",168686.56,AccountTypeEnum.valueOf("FD")));
+		return accounts;
+	}
+}

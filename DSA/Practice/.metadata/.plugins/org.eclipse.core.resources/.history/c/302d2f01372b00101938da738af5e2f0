@@ -1,0 +1,27 @@
+package com.cdac.acts.tree.binary;
+
+public class BTNode {
+	int val;
+	BTNode left;
+	BTNode right;
+	
+	public BTNode() {
+		this.val = null'
+		this.left = null;
+		this.right = null;
+	}
+	
+	public BTNode(int val) {
+		this.val = val;
+		this.left = null;
+		this.right = null;
+	}
+	
+	public BTNode(BTNode left, int val, BTNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+	
+	
+}

@@ -1,0 +1,83 @@
+package com.cdac.acts.printer;
+
+import java.time.LocalDate;
+import java.util.Objects;
+
+import com.cdac.acts.enums.PrinterTypeEnum;
+
+public class Printer{
+	//Create Printer class with serialNo, modelNo, price, printerType, manufacturingDate. Create Enum for PrinterType with values as LASER, INKJET, DOTMATRIX.
+	private Integer serialNo;
+	private String modelNo;
+	private Double price;
+	private PrinterTypeEnum type;
+	private LocalDate manufacturingDate;
+	public Printer() {
+		super();
+		this.serialNo = null;
+		this.modelNo = null;
+		this.price = null;
+		this.type = null;
+		this.manufacturingDate = null;
+	}
+	public Printer(Integer serialNo, String modelNo, Double price, PrinterTypeEnum type, LocalDate manufacturingDate) {
+		super();
+		this.serialNo = serialNo;
+		this.modelNo = modelNo;
+		this.price = price;
+		this.type = type;
+		this.manufacturingDate = manufacturingDate;
+	}
+	public Integer getSerialNo() {
+		return serialNo;
+	}
+	public void setSerialNo(Integer serialNo) {
+		this.serialNo = serialNo;
+	}
+	public String getModelNo() {
+		return modelNo;
+	}
+	public void setModelNo(String modelNo) {
+		this.modelNo = modelNo;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public PrinterTypeEnum getType() {
+		return type;
+	}
+	public void setType(PrinterTypeEnum type) {
+		this.type = type;
+	}
+	public LocalDate getManufacturingDate() {
+		return manufacturingDate;
+	}
+	public void setManufacturingDate(LocalDate manufacturingDate) {
+		this.manufacturingDate = manufacturingDate;
+	}
+	@Override
+	public String toString() {
+		return "Printer [serialNo=" + serialNo + ", modelNo=" + modelNo + ", price=" + price + ", type=" + type
+				+ ", manufacturingDate=" + manufacturingDate + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(manufacturingDate, modelNo, price, serialNo, type);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Printer other = (Printer) obj;
+		return Objects.equals(manufacturingDate, other.manufacturingDate) && Objects.equals(modelNo, other.modelNo)
+				&& Objects.equals(price, other.price) && Objects.equals(serialNo, other.serialNo) && type == other.type;
+	}
+	
+}

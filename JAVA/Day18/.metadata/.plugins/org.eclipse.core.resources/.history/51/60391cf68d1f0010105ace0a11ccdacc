@@ -1,0 +1,37 @@
+package com.cdac.acts.tester;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import com.cdac.acts.enums.OSEnum;
+import com.cdac.acts.mobile.MobilePhone;
+import com.cdac.acts.util.DataUtil;
+
+public class MobilePhoneTest {
+
+	public static void main(String[] args) {
+		List<MobilePhone> mobileList = DataUtil.mobileListData();
+		int op;
+		try(Scanner sc = new Scanner(System.in))
+		{
+			do {
+				System.out.println("OPTIONS:- ");
+				System.out.println("1. partitionedBy method to separate Android  and IOS phones.");
+				System.out.print("\n\nEnter Your chioce : ");
+				op = sc.nextInt();
+				switch(op) {
+					case 1: {
+						System.out.println("Store In Map partitionedBy method to separate Android  and IOS phones");
+						Map<OSEnum, List<MobliePhone>> map = mobileList.stream()
+															.collect(Collectors.partitioningBy((m) -> m.getOs().equals(OSEnum.valueOf("ANDRIOD")),Collectors()));
+						map.forEach((k,v) -> System.out.println("key = " + k + " and value = " + v));
+					}
+				}
+			}while(op!=0);
+		}
+	}
+
+}

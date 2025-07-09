@@ -1,0 +1,8 @@
+package com.cdac.acts.enums;
+
+public enum OSEnum {
+	WINDOWS("Windows"),
+	UBUNTU("Ubuntu"),
+	MAC("MacLinux"),
+	LINUX("Linux");
+}

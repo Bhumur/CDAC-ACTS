@@ -1,0 +1,7 @@
+package com.cdac.acts.printer;
+
+import com.cdac.acts.tester.BookTest;
+
+public class Printer extends BookTest {
+
+}

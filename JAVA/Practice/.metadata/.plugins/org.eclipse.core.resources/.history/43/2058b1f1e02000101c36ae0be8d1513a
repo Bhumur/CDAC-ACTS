@@ -1,0 +1,5 @@
+package com.cdac.acts.enums;
+
+public enum AccountTypeEnum {
+
+}

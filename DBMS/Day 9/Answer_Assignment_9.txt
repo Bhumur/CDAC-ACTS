@@ -1,0 +1,595 @@
+Name : Bhumur Agrawal
+PRN : 250240120047
+
+
+
+
+1	Consider following tables
+    	product(pid,pname,price,qty)
+    	product_details(pid,amt)
+    	amt =price * qty
+	Write a trigger which will calculate amt every time any update is done in the price of an item. 
+
+create table product1
+(pid int primary key auto_increment,
+ pname varchar(20),
+ qty int,
+ price int 
+);
+create table product_details
+(pid int,
+ amt int
+);
+
+
+
+delimiter #
+create trigger af_insert_product
+after insert
+on product1
+for each row
+begin
+	insert into product_details values(new.pid, new.price*new.qty);
+end #
+delimiter ;
+
+insert into product1(pname, qty, price) values('Apple', 10, 120),('Oranges',15,80),('Banana',50,65);
+
+delimiter #
+create trigger af_update_product
+after update
+on product1
+for each row
+begin
+	update product_details set amt = new.price*new.qty where pid=new.pid;
+end #
+delimiter ;
+
+
+update product1 set price=150 where pname='Apple';
+update product1 set price=105 where pname='Oranges';
+update product1 set price=51 where pname='Banana';
+
+mysql> create table product1
+    -> (pid int primary key auto_increment,
+    ->  pname varchar(20),
+    ->  qty int,
+    ->  price int
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table product_details
+    -> (pid int,
+    ->  amt int
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create trigger af_insert_product
+    -> after insert
+    -> on product1
+    -> for each row
+    -> begin
+    ->  insert into product_details values(new.pid, new.price*new.qty);
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> insert into product1(pname, qty, price) values('Apple', 10, 120),('Oranges',15,80),('Banana',50,65);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from product1;
++-----+---------+------+-------+
+| pid | pname   | qty  | price |
++-----+---------+------+-------+
+|   1 | Apple   |   10 |   120 |
+|   2 | Oranges |   15 |    80 |
+|   3 | Banana  |   50 |    65 |
++-----+---------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from product_details;
++------+------+
+| pid  | amt  |
++------+------+
+|    1 | 1200 |
+|    2 | 1200 |
+|    3 | 3250 |
++------+------+
+3 rows in set (0.00 sec)
+
+mysql> delimiter #
+mysql> create trigger af_update_product
+    -> after update
+    -> on product1
+    -> for each row
+    -> begin
+    ->  update product_details set amt = new.price*new.qty where pid=new.pid;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> update product1 set price=150 where pname='Apple';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update product1 set price=105 where pname='Oranges';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update product1 set price=51 where pname='Banana';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product1;
++-----+---------+------+-------+
+| pid | pname   | qty  | price |
++-----+---------+------+-------+
+|   1 | Apple   |   10 |   150 |
+|   2 | Oranges |   15 |   105 |
+|   3 | Banana  |   50 |    51 |
++-----+---------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from product_details;
++------+------+
+| pid  | amt  |
++------+------+
+|    1 | 1500 |
+|    2 | 1575 |
+|    3 | 2550 |
++------+------+
+3 rows in set (0.00 sec)
+
+
+
+
+2	Consider following table
+   	emp_wage(eno,ename,sal,over_time)
+   	eno : pk auto inc
+	Write a trigger which will insert over_time as 400 if value of over_time entered is null.    
+
+
+create table emp_wage
+(eno int primary key auto_increment,
+ ename varchar(15),
+ sal int,
+ over_time int
+);
+
+delimiter #
+create trigger bf_insert
+before insert
+on emp_wage
+for each row
+begin
+	if new.over_time is null
+	then
+		set new.over_time=400;
+	end if;
+end #
+delimiter ;
+
+insert into emp_wage(ename,sal,over_time) values('Bhumur',50000,null),('Mukul',35000,352),('Prakit',48000,null);
+
+mysql> create table emp_wage
+    -> (eno int primary key auto_increment,
+    ->  ename varchar(15),
+    ->  sal int,
+    ->  over_time int
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter #
+mysql> create trigger bf_insert
+    -> before insert
+    -> on emp_wage
+    -> for each row
+    -> begin
+    ->  if new.over_time is null
+    ->  then
+    ->          set new.over_time=400;
+    ->  end if;
+    -> end #
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> insert into emp_wage(ename,sal,over_time) values('Bhumur',50000,null),('Mukul',35000,352),('Prakit',48000,null);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp_wage;
++-----+--------+-------+-----------+
+| eno | ename  | sal   | over_time |
++-----+--------+-------+-----------+
+|   1 | Bhumur | 50000 |       400 |
+|   2 | Mukul  | 35000 |       352 |
+|   3 | Prakit | 48000 |       400 |
++-----+--------+-------+-----------+
+3 rows in set (0.00 sec)
+
+3	Consider following table
+      	order_master(oid,pname,qty,price)
+      	oid : pk auto inc
+      	order_log(oid,odate,amt)
+	Write a trigger which will create a log of all orders once order is placed.
+
+create table order_master
+(oid int primary key auto_increment,
+ pname varchar(20),
+ qty int,
+ price int
+);
+create table order_log
+(oid int,
+ odate date,
+ amt int
+);
+
+delimiter #
+create trigger af_insert_order
+after insert
+on order_master
+for each row
+begin
+	insert into order_log values(new.oid, curdate(), new.qty*new.price);	
+end #
+delimiter ;
+
+insert into order_master(pname, qty, price) values('Shampoo',55,84),('Detol',5,1478),('Centhol',6,87);
+
+
+mysql> create table order_master
+    -> (oid int primary key auto_increment,
+    ->  pname varchar(20),
+    ->  qty int,
+    ->  price int
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table order_log
+    -> (oid int,
+    ->  odate date,
+    ->  amt int
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter #
+mysql> create trigger af_insert_order
+    -> after insert
+    -> on order_master
+    -> for each row
+    -> begin
+    ->  insert into order_log values(new.oid, curdate(), new.qty*new.price);
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> insert into order_master(pname, qty, price) values('Shampoo',55,84),('Detol',5,1478),('Centhol',6,87);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from order_master;
++-----+---------+------+-------+
+| oid | pname   | qty  | price |
++-----+---------+------+-------+
+|   1 | Shampoo |   55 |    84 |
+|   2 | Detol   |    5 |  1478 |
+|   3 | Centhol |    6 |    87 |
++-----+---------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from order_log;
++------+------------+------+
+| oid  | odate      | amt  |
++------+------------+------+
+|    1 | 2025-03-28 | 4620 |
+|    2 | 2025-03-28 | 7390 |
+|    3 | 2025-03-28 |  522 |
++------+------------+------+
+3 rows in set (0.00 sec)
+
+
+
+4	Consider following table
+      	cust_master(cid,cname,accno,city)
+     	cust_details(cid,deleted_date)
+	Write a trigger which will save the information of deleted customer in cust_details 	table. 
+
+create table cust_master
+(
+ cid int primary key auto_increment,
+ cname varchar(20),
+ accno int,
+ city varchar(25)
+);
+
+create table cust_details
+(
+ cid int,
+ deleted_date date
+);
+
+delimiter #
+create trigger bf_delete
+before delete
+on cust_master
+for each row
+begin
+	insert into cust_details values(old.cid, curdate());	
+end #
+delimiter ;
+
+insert into cust_master(cname,accno,city) values('Bhumur',800001,'Jaipur'),('Mukul',800002,'Dholpur'),('Pratik',800003,'Pune'),('Jotijay',800004,'Bhopal');
+
+delete from cust_master where cid=3;
+
+
+mysql> create table cust_master
+    -> (
+    ->  cid int primary key auto_increment,
+    ->  cname varchar(20),
+    ->  accno int,
+    ->  city varchar(25)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> create table cust_details
+    -> (
+    ->  cid int,
+    ->  deleted_date date
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into cust_master(cname,accno,city) values('Bhumur',800001,'Jaipur'),('Mukul',800002,'Dholpur'),('Pratik',800003,'Pune'),('Jotijay',800004,'Bhopal');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+
+mysql> select * from cust_master;
++-----+---------+--------+---------+
+| cid | cname   | accno  | city    |
++-----+---------+--------+---------+
+|   1 | Bhumur  | 800001 | Jaipur  |
+|   2 | Mukul   | 800002 | Dholpur |
+|   3 | Pratik  | 800003 | Pune    |
+|   4 | Jotijay | 800004 | Bhopal  |
++-----+---------+--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter #
+mysql> create trigger bf_delete
+    -> before delete
+    -> on cust_master
+    -> for each row
+    -> begin
+    ->  insert into cust_details values(old.cid, curdate());
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> delete from cust_master where cid=3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cust_master;
++-----+---------+--------+---------+
+| cid | cname   | accno  | city    |
++-----+---------+--------+---------+
+|   1 | Bhumur  | 800001 | Jaipur  |
+|   2 | Mukul   | 800002 | Dholpur |
+|   4 | Jotijay | 800004 | Bhopal  |
++-----+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from cust_details;
++------+--------------+
+| cid  | deleted_date |
++------+--------------+
+|    3 | 2025-03-28   |
++------+--------------+
+1 row in set (0.00 sec)
+
+
+
+5	create table med_master
+	(mno int primary key auto_increment,
+ 	mname varchar(15),
+ 	stock int
+	);
+	create table med_order
+	(mid int primary key auto_increment,
+ 	mno int,
+ 	qty int);
+	Create above tables and write the trigger which will insert data in med_order table if stock drops down below 15.
+	Use update after trigger.
+
+insert into med_master(mname,stock) value('Dolo',16),('Combiflame',18),('detol',17),('iodex',20);
+
+delimiter #
+create trigger af_update
+after update
+on med_master
+for each row
+begin
+	if new.stock < 15
+	then 
+		insert into med_order(mno, qty) values(old.mno, 15-new.stock);
+	end if;
+end #
+delimiter ;
+
+
+update med_master set stock=14 where mname='Dolo';
+update med_master set stock=5 where mname='detol';
+update med_master set stock=15 where mname='iodex';
+
+
+
+mysql> create table med_master
+    ->  (mno int primary key auto_increment,
+    ->          mname varchar(15),
+    ->          stock int
+    ->  );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>  create table med_order
+    ->  (mid int primary key auto_increment,
+    ->          mno int,
+    ->          qty int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into med_master(mname,stock) value('Dolo',16),('Combiflame',18),('detol',17),('iodex',20);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from med_master;
++-----+------------+-------+
+| mno | mname      | stock |
++-----+------------+-------+
+|   1 | Dolo       |    16 |
+|   2 | Combiflame |    18 |
+|   3 | detol      |    17 |
+|   4 | iodex      |    20 |
++-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter #
+mysql> create trigger af_update
+    -> after update
+    -> on med_master
+    -> for each row
+    -> begin
+    ->  if new.stock < 15
+    ->  then
+    ->          insert into med_order(mno, qty) values(old.mno, 15-new.stock);
+    ->  end if;
+    -> end #
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> update med_master set stock=14 where mname='Dolo';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update med_master set stock=5 where mname='detol';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update med_master set stock=15 where mname='iodex';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from med_master;
++-----+------------+-------+
+| mno | mname      | stock |
++-----+------------+-------+
+|   1 | Dolo       |    14 |
+|   2 | Combiflame |    18 |
+|   3 | detol      |     5 |
+|   4 | iodex      |    15 |
++-----+------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from med_order;
++-----+------+------+
+| mid | mno  | qty  |
++-----+------+------+
+|   1 |    1 |    1 |
+|   2 |    3 |   10 |
++-----+------+------+
+2 rows in set (0.00 sec)
+
+
+
+
+6	Try all basic commands of mongodb
+
+test> use batch1
+switched to db batch1
+batch1> db
+batch1
+batch1> db.emp.insert({eno:1,ename:'Amit',deptno:20,comm:1200,sal:3000})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('67e6bf5de50b7c490db71236') }
+}
+batch1> db.emp.insert({eno:2,ename:'Smita',sal:3000})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('67e6bf8ce50b7c490db71237') }
+}
+batch1> db.emp.find()
+[
+  {
+    _id: ObjectId('67e6bf5de50b7c490db71236'),
+    eno: 1,
+    ename: 'Amit',
+    deptno: 20,
+    comm: 1200,
+    sal: 3000
+  },
+  {
+    _id: ObjectId('67e6bf8ce50b7c490db71237'),
+    eno: 2,
+    ename: 'Smita',
+    sal: 3000
+  }
+]
+batch1> db.emp.find({ename:'Amit'},{_id:0,ename:1,empno:1})
+[ { ename: 'Amit' } ]
+batch1> db.emp.find({ename:'Amit'},{_id:0,ename:1,eno:1})
+[ { eno: 1, ename: 'Amit' } ]
+batch1> db.emp.insertMany([{empno:13,ename:'Amit'},{eno:14,dept:'R&D'},{ename:'amit',sal:34000,job:'Manager'}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67e6c071e50b7c490db71238'),
+    '1': ObjectId('67e6c071e50b7c490db71239'),
+    '2': ObjectId('67e6c071e50b7c490db7123a')
+  }
+}
+batch1> db.emp.find({ename:'Amit'},{_id:0,ename:1,empno:1})
+[ { ename: 'Amit' }, { empno: 13, ename: 'Amit' } ]
+
+
+batch1> db.emp.find()
+[
+  {
+    _id: ObjectId('67e6bf5de50b7c490db71236'),
+    eno: 1,
+    ename: 'Amit',
+    deptno: 20,
+    comm: 1200,
+    sal: 3000
+  },
+  {
+    _id: ObjectId('67e6bf8ce50b7c490db71237'),
+    eno: 2,
+    ename: 'Smita',
+    sal: 3000
+  },
+  {
+    _id: ObjectId('67e6c071e50b7c490db71238'),
+    empno: 13,
+    ename: 'Amit'
+  },
+  { _id: ObjectId('67e6c071e50b7c490db71239'), eno: 14, dept: 'R&D' },
+  {
+    _id: ObjectId('67e6c071e50b7c490db7123a'),
+    ename: 'amit',
+    sal: 34000,
+    job: 'Manager'
+  }
+]
+
+
+
+
+
+
+

@@ -1,0 +1,242 @@
+Name : Bhumur Agrawal
+PRN : 250240120047
+
+
+
+
+1.Change rating of movie Kesari to 2  
+
+db.movie.update({name:'Kesari'},{$set : {rating : 2}})
+
+batch1> db.movie.update({name:'Kesari'},{$set : {rating : 2}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+batch1> db.movie.find({name:'Kesari'})
+[
+  {
+    _id: ObjectId('5ca453ef2952ebdd7ae2a92f'),
+    name: 'Kesari',
+    actor: [ 'Akshay Kumar', 'Pariniti chopra' ],
+    rating: 2,
+    price: 350,
+    ticket_no: 270,
+    rdate: ISODate('2019-01-23T00:00:00.000Z')
+  }
+]
+
+
+2.increase the price of all tickits by Rs 20 for Amitabh's movie. 
+
+db.movie.updateMany({actor : /^[Aa]mitabh/},{$inc:{price:20}})
+
+batch1> db.movie.find({actor : /^[Aa]mitabh/})
+[
+  {
+    _id: ObjectId('5aaa3334639395f86922a882'),
+    name: 'aradhana',
+    actor: [ 'amitabh', 'prem', 'rajesh khanna' ],
+    rating: 3,
+    ticket_no: 550,
+    price: 260
+  },
+  {
+    _id: ObjectId('5ca456072952ebdd7ae2a930'),
+    name: 'paa',
+    actor: [ 'Amitabh', 'vidya balan', 'Abhishek' ],
+    rating: 2,
+    price: 270,
+    ticket_no: 210,
+    rdate: ISODate('2019-01-23T00:00:00.000Z'),
+    others: { director: 'R Balki', songs: 'Amit trivedi' }
+  },
+  {
+    _id: ObjectId('5aaa3334639395f86922a881'),
+    name: 'sholay',
+    actor: [
+      'Dharamendra',
+      'Amitabh',
+      'Sachin Pilgaokar',
+      'Dharamendra',
+      'Dharamendra',
+      'Mr. Khote',
+      'jaya bacchan',
+      'sanjiv kapoor'
+    ],
+    rating: 6,
+    ticket_no: 550,
+    price: 350,
+    position: [ 2, 2 ]
+  }
+]
+
+batch1> db.movie.updateMany({actor : /^[A/^mitabh/},{$inc:{price:20}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 3,
+  modifiedCount: 3,
+  upsertedCount: 0
+}
+batch1> db.movie.find({actor : /^[Aa]mitabh/})
+[
+  {
+    _id: ObjectId('5aaa3334639395f86922a882'),
+    name: 'aradhana',
+    actor: [ 'amitabh', 'prem', 'rajesh khanna' ],
+    rating: 3,
+    ticket_no: 550,
+    price: 320
+  },
+  {
+    _id: ObjectId('5ca456072952ebdd7ae2a930'),
+    name: 'paa',
+    actor: [ 'Amitabh', 'vidya balan', 'Abhishek' ],
+    rating: 2,
+    price: 290,
+    ticket_no: 210,
+    rdate: ISODate('2019-01-23T00:00:00.000Z'),
+    others: { director: 'R Balki', songs: 'Amit trivedi' }
+  },
+  {
+    _id: ObjectId('5aaa3334639395f86922a881'),
+    name: 'sholay',
+    actor: [
+      'Dharamendra',
+      'Amitabh',
+      'Sachin Pilgaokar',
+      'Dharamendra',
+      'Dharamendra',
+      'Mr. Khote',
+      'jaya bacchan',
+      'sanjiv kapoor'
+    ],
+    rating: 6,
+    ticket_no: 550,
+    price: 370,
+    position: [ 2, 2 ]
+  }
+]
+
+3.Delete key rating for movie Kesari
+
+db.movie.updateOne({name:'Kesari'},{$unset:{rating:" "}})
+
+batch1> db.movie.updateOne({name:'Kesari'},{$unset:{rating:" "}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch1> db.movie.find({name : 'Kesari'})
+[
+  {
+    _id: ObjectId('5ca453ef2952ebdd7ae2a92f'),
+    name: 'Kesari',
+    actor: [ 'Akshay Kumar', 'Pariniti chopra' ],
+    price: 350,
+    ticket_no: 270,
+    rdate: ISODate('2019-01-23T00:00:00.000Z')
+  }
+]
+
+4.Increase price by 50 and change rating to 7 for movie 3 idiots.
+
+db.movie.updateOne({name : '3 idiots'},{$set : {rating:7}, $inc : {price:50}})
+
+batch1> db.movie.updateOne({name : '3 idiots'},{$set : {rating:7}, $inc : {price:50}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch1> db.movie.find({name : '3 idiots'})
+[
+  {
+    _id: ObjectId('5aaa31ee639395f86922a87f'),
+    name: '3 idiots',
+    actor: [ 'Kareena Kapoor', 'amir', 'kareena', 'mahadavan', 'sharman' ],
+    rating: 7,
+    ticket_no: 150,
+    price: 250
+  }
+]
+
+
+5.Add new actor in movie Sholay
+
+db.movie.find({name:'Sholay'})
+db.movie.update({name:'sholay'},{$push:{actor:'mukul'}})
+
+
+batch1> db.movie.update({name:'sholay'},{$push:{actor:'mukul'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch1> db.movie.find({name:'sholay'})
+[
+  {
+    _id: ObjectId('5aaa3334639395f86922a881'),
+    name: 'sholay',
+    actor: [
+      'Dharamendra',
+      'Amitabh',
+      'Sachin Pilgaokar',
+      'Dharamendra',
+      'Dharamendra',
+      'Mr. Khote',
+      'jaya bacchan',
+      'sanjiv kapoor',
+      'mukul'
+    ],
+    rating: 6,
+    ticket_no: 550,
+    price: 370,
+    position: [ 2, 2 ]
+  }
+]
+
+6.Add multipla actors in any movie of your choice.
+
+db.movie.updateMany({name:'sholay'},{$push:{<actor>:<'Anuj'>,<'Bhumur'>}})
+
+
+7.Add actors at a perticular position
+
+8.Delete first value from array
+
+9.delete last value from array
+
+ 
+10.For movie "kahani 2" change rating to 5.
+ 
+11.Change price =400 and increase rating by 2 for all movies with name Kahani in it.
+
+12.Decrease price of all movies by Rs.40.]
+
+db.movie.find({},{price:1})
+
+db.movie.update({},{$inc : {price:40}})
+
+13.Increase the price by 10% of price to display all movies with amitabh acted in it and is at 1 st index position in array
+ 
+16.Create a capped collection of size 5 by name dept.Store dno,  dname,location.Test this capped collection by adding new documents.
+
+
+
+
+ 

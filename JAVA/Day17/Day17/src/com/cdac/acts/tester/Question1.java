@@ -1,0 +1,21 @@
+package com.cdac.acts.tester;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Function;
+
+public class Question1 {
+
+	public static void main(String[] args) {
+		String dateFormate = "dd/MM/yyyy";
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern(dateFormate);
+		
+		
+		Function<LocalDate, String> dateToString = (date) -> date.format(formater);
+		Function<String, LocalDate> stringToDate = (str) -> LocalDate.parse(str,formater);
+		
+		LocalDate date = stringToDate.apply("17/08/1970");
+		System.out.println(dateToString.apply(date));
+	}
+
+}

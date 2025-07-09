@@ -1,0 +1,21 @@
+package com.cdac.acts.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.cdac.acts.account.Account;
+import com.cdac.acts.enums.AccountTypeEnum;
+
+public class DataUtil {
+	public static Map<String,Account> accountMap(){
+		Map<String,Account> accounts = new HashMap<>();
+		accounts.put("101", new Account("101","Bhumur","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("102", new Account("102","Mukul","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("CA")));
+		accounts.put("103", new Account("103","Pratik","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("FD")));
+		accounts.put("104", new Account("104","Jyotijai","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("SA")));
+		accounts.put("105", new Account("105","Pranav","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("CA")));
+		accounts.put("106", new Account("106","Uday","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("FD")));
+		accounts.put("107", new Account("107","Shivangs","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("SA")));
+		return accounts;
+	}
+}

@@ -1,0 +1,109 @@
+package com.cdac.acts.account;
+
+import com.cdac.acts.enums.AccountTypeEnum;
+
+public class Account {
+	private static Integer paraInc = 1001;
+	private Integer id;
+	private String accountNumber;
+	private String name;
+	private String email;
+	private String phone;
+	private Double balance;
+	private AccountTypeEnum accountType;
+	public Account() {
+		this.id = paraInc++;
+		this.accountNumber = null;
+		this.name = null;
+		this.email = null;
+		this.phone = null;
+		this.balance = null;
+		this.accountType = null;
+	}
+	public Account(Integer id, String accountNumber, String name, String email, String phone, Double balance,
+			AccountTypeEnum accountType) {
+		super();
+		this.id = paraInc++;
+		this.accountNumber = accountNumber;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.balance = balance;
+		this.accountType = accountType;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public Double getBalance() {
+		return balance;
+	}
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+	public AccountTypeEnum getAccountType() {
+		return accountType;
+	}
+	public void setAccountType(AccountTypeEnum accountType) {
+		this.accountType = accountType;
+	}
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", accountNumber=" + accountNumber + ", name=" + name + ", email=" + email
+				+ ", phone=" + phone + ", balance=" + balance + ", accountType=" + accountType + "]";
+	}
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		hash = 31 * hash + (null==this.id ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.accountNumber ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.name ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.email ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.phone ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.balance ? 0:this.id.hashCode());
+		hash = 31 * hash + (null==this.accountType ? 0:this.id.hashCode());
+		return hash;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(null==obj) {
+			return false;
+		}
+		if(this.getClass()!=obj.getClass()) {
+			return false;
+		}
+		if(this==obj) {
+			return true;
+		}
+		return this.id.equals(obj.getId())
+	}
+	
+	
+	
+}

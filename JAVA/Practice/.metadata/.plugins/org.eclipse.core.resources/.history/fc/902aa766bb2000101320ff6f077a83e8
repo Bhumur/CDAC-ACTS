@@ -1,0 +1,26 @@
+package com.cdac.acts.queue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Queue {
+	private List<Integer> queue  = new ArrayList<>();
+	private Integer start;
+	private Integer end;
+	
+	public Queue() {
+		this.queue = null;
+		this.start = 0;
+		this.end = 0;
+	}
+	
+	public Queue(ArrayList<Integer> list) {
+		this.queue = list;
+		this.start = 0;
+		this.end = list.size()-1;
+	}
+	
+	public List<Integer> getQueue(){
+		return queue;
+	}
+}

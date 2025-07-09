@@ -1,0 +1,96 @@
+package com.cdac.acts.tester;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.cdac.acts.enums.OSEnum;
+import com.cdac.acts.mobile.MobilePhone;
+import com.cdac.acts.util.DataUtil;
+
+public class MobilePhoneTest {
+
+	public static void main(String[] args) {
+		List<MobilePhone> mobileList = DataUtil.mobileListData();
+		int op;
+		try(Scanner sc = new Scanner(System.in))
+		{
+			do {
+				System.out.println("\n\nOPTIONS:- ");
+				System.out.println("1. List of Andriod.");
+				System.out.println("2. List of IOS");
+				System.out.println("3. Sort on color basis then ram");
+				System.out.println("4. List to Set");
+				System.out.println("5. Filter By Brand");
+				System.out.println("6. Filter By OS");
+				System.out.println("7. Filter By Color");
+				System.out.println("8. Filter By Ram");
+				System.out.println("0. EXIT");
+				System.out.print("\n\nEnter Your chioce : ");
+				op = sc.nextInt();
+				Map<Boolean, List<MobilePhone>> map = mobileList.stream()
+						.collect(Collectors.partitioningBy((m) -> m.getOs().equals(OSEnum.valueOf("ANDRIOD"))));
+				switch(op) {
+					case 1: {
+						System.out.println("1. List of Andriod");
+						System.out.println(map.get(true).toString());
+						break;
+					}
+					case 2 :{
+						System.out.println("2. List of IOS");
+						System.out.println(map.get(false).toString());
+						break;
+					}
+					case 3: {
+						System.out.println("3. Sort on color basis then ram");
+						mobileList = mobileList.stream()
+								.sorted(Comparator.comparing(MobilePhone::getColor).thenComparing(MobilePhone::getRam))
+								.collect(Collectors.toList());
+						mobileList.forEach(System.out::println);
+						break;
+					}
+					case 4: {
+						System.out.println("4. List to Set");
+						Set<MobilePhone> set = mobileList.stream()
+												.collect(Collectors.toSet());
+						set.forEach(System.out::println);
+						break;
+					}
+					case 5: {
+						System.out.println("5. Filter By Brand");
+						System.out.print("Enter Brand Name : ");
+						String brand = sc.next();
+						mobileList.stream()
+						.filter((m)->m.getBrand().equals(brand))
+						.forEach(System.out::println);
+						break;
+					}
+					case 6: {
+						System.out.println("6. Filter By OS");
+						System.out.print("Enter OS Name : ");
+						String os = sc.next();
+						mobileList.stream()
+						.filter((m)->m.getOs().equals(OSEnum.valueOf(os)))
+						.forEach(System.out::println);
+						break;
+					}
+					case 7: {
+						System.out.println("7. Filter By Color");
+						System.out.print("Enter Color Name : ");
+						String color = sc.next();
+						mobileList.stream()
+						.filter((m)->m.getColor().equals(color))
+						.forEach(System.out::println);
+						break;
+					}
+					case 0: break;
+					default: System.out.println("INVALID INPUT");
+				}
+			}while(op!=0);
+		}
+	}
+
+}

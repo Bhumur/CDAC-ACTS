@@ -1,0 +1,7 @@
+package com.cdac.acts.exception;
+
+public class InsufficientBalanceExceptions extends Exception{
+	public InsufficientBalanceExceptions(String str) {
+		super(str);
+	}
+}

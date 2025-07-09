@@ -1,0 +1,810 @@
+Name : Bhumur Agrawal
+PRN : 250240120047
+
+
+
+
+1  	Create a view emp_view having following columns empno,ename,deptno,sal, comm
+
+mysql> create view emp_view
+    -> as
+    -> select empno,ename,deptno,sal,comm from emp;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from emp_view;
++-------+--------+--------+---------+---------+
+| empno | ename  | deptno | sal     | comm    |
++-------+--------+--------+---------+---------+
+|  4652 | hike   |     20 | 5001.01 |    NULL |
+|  7369 | SMITH  |     20 |  924.00 |    NULL |
+|  7499 | ALLEN  |     30 | 1848.00 |  300.00 |
+|  7521 | WARD   |     30 | 1443.75 |  500.00 |
+|  7566 | JONES  |     20 | 3436.13 |    NULL |
+|  7654 | MARTIN |     30 | 1443.75 | 1400.00 |
+|  7698 | BLAKE  |     30 | 3291.75 |    NULL |
+|  7777 | mike   |     30 | 5001.01 |    NULL |
+|  7782 | CLARK  |     10 | 2829.75 |    NULL |
+|  7788 | SCOTT  |     20 | 3465.00 |    NULL |
+|  7839 | KING   |     10 | 5775.00 |    NULL |
+|  7844 | TURNER |     30 | 1732.50 |    0.00 |
+|  7876 | ADAMS  |     20 | 1270.50 |    NULL |
+|  7900 | JAMES  |     30 | 1097.25 |    NULL |
+|  7902 | FORD   |     20 | 3465.00 |    NULL |
+|  7934 | MILLER |     10 | 1501.50 |    NULL |
++-------+--------+--------+---------+---------+
+16 rows in set (0.00 sec)
+
+
+
+
+2	Insert new employee having following information in the view (1111,'Geeta',20,10000,300)
+	check the data inserted in the view as well as the base table.
+	
+mysql> insert into emp_view values(1111,'Geeta',20,10000,300);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp_view;
++-------+--------+--------+----------+---------+
+| empno | ename  | deptno | sal      | comm    |
++-------+--------+--------+----------+---------+
+|  1111 | Geeta  |     20 | 10000.00 |  300.00 |
+|  4652 | hike   |     20 |  5001.01 |    NULL |
+|  7369 | SMITH  |     20 |   924.00 |    NULL |
+|  7499 | ALLEN  |     30 |  1848.00 |  300.00 |
+|  7521 | WARD   |     30 |  1443.75 |  500.00 |
+|  7566 | JONES  |     20 |  3436.13 |    NULL |
+|  7654 | MARTIN |     30 |  1443.75 | 1400.00 |
+|  7698 | BLAKE  |     30 |  3291.75 |    NULL |
+|  7777 | mike   |     30 |  5001.01 |    NULL |
+|  7782 | CLARK  |     10 |  2829.75 |    NULL |
+|  7788 | SCOTT  |     20 |  3465.00 |    NULL |
+|  7839 | KING   |     10 |  5775.00 |    NULL |
+|  7844 | TURNER |     30 |  1732.50 |    0.00 |
+|  7876 | ADAMS  |     20 |  1270.50 |    NULL |
+|  7900 | JAMES  |     30 |  1097.25 |    NULL |
+|  7902 | FORD   |     20 |  3465.00 |    NULL |
+|  7934 | MILLER |     10 |  1501.50 |    NULL |
++-------+--------+--------+----------+---------+
+17 rows in set (0.00 sec)
+	
+mysql> select * from emp;
++-------+--------+-----------+------+------------+----------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL      | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+----------+---------+--------+
+|  1111 | Geeta  | NULL      | NULL | NULL       | 10000.00 |  300.00 |     20 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |   924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 |  1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 |  1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 |  3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 |  1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 |  3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 |  2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 |  3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 |  5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 |  1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 |  1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 |  3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 |  1501.50 |    NULL |     10 |
++-------+--------+-----------+------+------------+----------+---------+--------+
+17 rows in set (0.00 sec)
+
+
+
+3	Create a view for deptno 20 as emp_v20 having following cloumns. This view should contain rows from dept20 only. empno,ename,deptno,job.
+
+mysql> create view emp_v20
+    -> as
+    -> select empno,ename,deptno,job from emp where deptno=20;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from emp_v20;
++-------+-------+--------+----------+
+| empno | ename | deptno | job      |
++-------+-------+--------+----------+
+|  1111 | Geeta |     20 | NULL     |
+|  4652 | hike  |     20 | SOFTWARE |
+|  7369 | SMITH |     20 | CLERK    |
+|  7566 | JONES |     20 | MANAGER  |
+|  7788 | SCOTT |     20 | ANALYST  |
+|  7876 | ADAMS |     20 | CLERK    |
+|  7902 | FORD  |     20 | ANALYST  |
++-------+-------+--------+----------+
+7 rows in set (0.00 sec)
+
+
+4	Insert new employee  in view emp_v20 having following information (2222,'Raj',40,'Analyst') 
+check the data inserted in the base table emp and also in the view.
+
+mysql> insert into emp_v20 values(2222,'Raj',40,'Analyst');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+----------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL      | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+----------+---------+--------+
+|  1111 | Geeta  | NULL      | NULL | NULL       | 10000.00 |  300.00 |     20 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |     NULL |    NULL |     40 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |   924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 |  1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 |  1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 |  3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 |  1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 |  3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 |  2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 |  3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 |  5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 |  1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 |  1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 |  3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 |  1501.50 |    NULL |     10 |
++-------+--------+-----------+------+------------+----------+---------+--------+
+18 rows in set (0.00 sec)
+
+mysql> select * from emp_v20;
++-------+-------+--------+----------+
+| empno | ename | deptno | job      |
++-------+-------+--------+----------+
+|  1111 | Geeta |     20 | NULL     |
+|  4652 | hike  |     20 | SOFTWARE |
+|  7369 | SMITH |     20 | CLERK    |
+|  7566 | JONES |     20 | MANAGER  |
+|  7788 | SCOTT |     20 | ANALYST  |
+|  7876 | ADAMS |     20 | CLERK    |
+|  7902 | FORD  |     20 | ANALYST  |
++-------+-------+--------+----------+
+7 rows in set (0.00 sec)
+
+
+
+5 Create a view for deptno 20 as new_emp_v20 having following cloumns
+empno,ename,deptno,job with constraint 'check option' .
+
+mysql> create view new_emp_v20
+    -> as
+    -> select empno,ename,deptno,job from emp where deptno = 20
+    -> with check option;
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+ 6
+ Insert below data in new_emp_v20 having following information
+(2222,'Raj',40,'Analyst')
+check the data inserted in the base table emp and also in the view.
+
+mysql> insert into new_emp_v20 values(2222,'Raj',40,'Analyst');
+ERROR 1369 (HY000): CHECK OPTION failed 'batch_1.new_emp_v20'
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+----------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL      | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+----------+---------+--------+
+|  1111 | Geeta  | NULL      | NULL | NULL       | 10000.00 |  300.00 |     20 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |     NULL |    NULL |     40 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |   924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 |  1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 |  1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 |  3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 |  1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 |  3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 |  2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 |  3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 |  5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 |  1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 |  1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 |  3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 |  1501.50 |    NULL |     10 |
++-------+--------+-----------+------+------------+----------+---------+--------+
+18 rows in set (0.00 sec)
+
+mysql> select * from new_emp_v20;
++-------+-------+--------+----------+
+| empno | ename | deptno | job      |
++-------+-------+--------+----------+
+|  1111 | Geeta |     20 | NULL     |
+|  4652 | hike  |     20 | SOFTWARE |
+|  7369 | SMITH |     20 | CLERK    |
+|  7566 | JONES |     20 | MANAGER  |
+|  7788 | SCOTT |     20 | ANALYST  |
+|  7876 | ADAMS |     20 | CLERK    |
+|  7902 | FORD  |     20 | ANALYST  |
++-------+-------+--------+----------+
+7 rows in set (0.00 sec)
+
+
+7	Check the views created.
+
+mysql> show full tables where table_type = 'VIEW';
++-------------------+------------+
+| Tables_in_batch_1 | Table_type |
++-------------------+------------+
+| emp_v20           | VIEW       |
+| emp_view          | VIEW       |
+| new_emp_v20       | VIEW       |
++-------------------+------------+
+3 rows in set (0.00 sec)
+
+8	Create a view with columns as empno,ename, deptno and dname.
+	Check if you can enter the data in the above view.
+
+mysql> create view v8
+    -> as
+    -> select e.empno,e.ename, d.deptno, d.dname from emp e join dept d where e.deptno=d.deptno;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from v8;
++-------+--------+--------+------------+
+| empno | ename  | deptno | dname      |
++-------+--------+--------+------------+
+|  1111 | Geeta  |     20 | RESEARCH   |
+|  2222 | Raj    |     40 | OPERATIONS |
+|  4652 | hike   |     20 | RESEARCH   |
+|  7369 | SMITH  |     20 | RESEARCH   |
+|  7499 | ALLEN  |     30 | SALES      |
+|  7521 | WARD   |     30 | SALES      |
+|  7566 | JONES  |     20 | RESEARCH   |
+|  7654 | MARTIN |     30 | SALES      |
+|  7698 | BLAKE  |     30 | SALES      |
+|  7777 | mike   |     30 | SALES      |
+|  7782 | CLARK  |     10 | ACCOUNTING |
+|  7788 | SCOTT  |     20 | RESEARCH   |
+|  7839 | KING   |     10 | ACCOUNTING |
+|  7844 | TURNER |     30 | SALES      |
+|  7876 | ADAMS  |     20 | RESEARCH   |
+|  7900 | JAMES  |     30 | SALES      |
+|  7902 | FORD   |     20 | RESEARCH   |
+|  7934 | MILLER |     10 | ACCOUNTING |
++-------+--------+--------+------------+
+18 rows in set (0.00 sec)
+
+
+
+1	From emp table write a SQL query to find those employees  whose ID matches any of the numbers 7902, 7876 and 7934. Display all columns.
+
+mysql> select ename "Employee Name" from emp where empno in (7902,7876,7934);
++---------------+
+| Employee Name |
++---------------+
+| ADAMS         |
+| FORD          |
+| MILLER        |
++---------------+
+3 rows in set (0.00 sec)
+
+
+
+2 From emp table, write a SQL query to find the employee  whose salary is 3000 and reporting person’s ID is 7876. 
+
+mysql> select ename "Employee Name" from emp where sal=3000 and empno = 7876;
+Empty set (0.00 sec)
+
+// the employee id 7876 does't have salary 3000
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+----------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL      | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+----------+---------+--------+
+|  1111 | Geeta  | NULL      | NULL | NULL       | 10000.00 |  300.00 |     20 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |     NULL |    NULL |     40 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |   924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 |  1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 |  1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 |  3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 |  1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 |  3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 |  5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 |  2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 |  3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 |  5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 |  1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 |  1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 |  3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 |  1501.50 |    NULL |     10 |
++-------+--------+-----------+------+------------+----------+---------+--------+
+18 rows in set (0.00 sec)
+
+
+3	From emp table  write a SQL query to find those employees whose salary falls within the range of the minimum  salary and 2500. 
+
+mysql> select ename "Employee Name" from emp where sal between (select min(sal) from emp) and 2500;
++---------------+
+| Employee Name |
++---------------+
+| SMITH         |
+| ALLEN         |
+| WARD          |
+| MARTIN        |
+| TURNER        |
+| ADAMS         |
+| JAMES         |
+| MILLER        |
++---------------+
+8 rows in set (0.00 sec)
+
+
+4	From emp table, write a SQL query to find those employees who do not work in the departments where managers’ IDs are between 7566 and 7698 (Begin and end values are included.) 
+
+mysql> select ename "Employee Name" from emp where mgr not between 7566 and 7698;
++---------------+
+| Employee Name |
++---------------+
+| MILLER        |
+| ADAMS         |
+| JONES         |
+| BLAKE         |
+| CLARK         |
+| hike          |
+| SMITH         |
+| mike          |
++---------------+
+8 rows in set (0.00 sec)
+
+
+
+5	From emp table, write a SQL query to find those employees who get second-highest salary.
+
+mysql> select ename from emp where sal = (select max(sal) from emp where sal != (select max(sal) from emp));
++-------+
+| ename |
++-------+
+| hike  |
+| mike  |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2829.75 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5775.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1501.50 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+17 rows in set (0.00 sec)
+
+
+  
+6	From emp table, write a SQL query to find those employees who work in a department where the employee’s name contains the letter 'J'. 
+
+mysql> select * from emp where deptno in (select deptno "Department no" from emp where regexp_like(ename,'^.*j.*$'));
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  2222 | Raj    | Analyst  | NULL | NULL       |    NULL |    NULL |     40 |
+|  4652 | hike   | SOFTWARE | 7902 | 1982-05-16 | 5001.01 |    NULL |     20 |
+|  7369 | SMITH  | CLERK    | 7902 | 1980-12-17 |  924.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1848.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1443.75 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 3436.13 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1443.75 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 3291.75 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE | 7902 | 1982-05-16 | 5001.01 |    NULL |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3465.00 |    NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1732.50 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1270.50 |    NULL |     20 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 | 1097.25 |    NULL |     30 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3465.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+ 
+7	From emp table, write a SQL query to find those employees who earn more than the average salary and work in the same department as an employee whose first name contains the letter 'J'. Return employee ID, first name and salary.  
+
+mysql> select empno, ename, sal from emp where deptno in (select deptno "Department no" from emp where regexp_like(ename,'^.*j.*$')) and sal>(select avg(sal) from emp);
++-------+-------+---------+
+| empno | ename | sal     |
++-------+-------+---------+
+|  4652 | hike  | 5001.01 |
+|  7566 | JONES | 3436.13 |
+|  7698 | BLAKE | 3291.75 |
+|  7777 | mike  | 5001.01 |
+|  7788 | SCOTT | 3465.00 |
+|  7902 | FORD  | 3465.00 |
++-------+-------+---------+
+6 rows in set (0.00 sec)
+
+
+
+
+8	From emp table, write a SQL query to find those employees whose salaries are higher than the average salaries of  all departments.
+
+mysql> select ename from emp where sal>(select avg(sal) from emp);
++-------+
+| ename |
++-------+
+| hike  |
+| JONES |
+| BLAKE |
+| mike  |
+| CLARK |
+| SCOTT |
+| KING  |
+| FORD  |
++-------+
+8 rows in set (0.00 sec)
+
+
+
+9	From emp table, write a SQL query to find those employees whose salary matches that of the employee 
+   who works in department  30
+   
+mysql> select ename from emp where sal in (select sal from emp where deptno = 30);
++--------+
+| ename  |
++--------+
+| hike   |
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| BLAKE  |
+| mike   |
+| TURNER |
+| JAMES  |
++--------+
+8 rows in set (0.00 sec)
+   
+   
+   
+10	From emp table, write a SQL query to find employees who work for the department in which employee ID 7788 is employed.
+
+mysql> select ename ,deptno from emp where deptno in (select deptno from emp where empno = 7788);
++-------+--------+
+| ename | deptno |
++-------+--------+
+| hike  |     20 |
+| SMITH |     20 |
+| JONES |     20 |
+| SCOTT |     20 |
+| ADAMS |     20 |
+| FORD  |     20 |
++-------+--------+
+6 rows in set (0.00 sec)
+
+
+11
+Insert data in dept table and solve the following query
+
+Insert into dept values(50,’MKT’,CHICAGO);
+
+mysql> insert into dept values(50,'MKT','CHICAGO');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(empno, ename, deptno) values (1234, 'Mukul', 50),(2345, 'Bhumur', 50);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+From emp table, write a SQL query to display all employees working in the department whose location is as that of the location of dept 30 .
+
+mysql> select ename from emp where deptno in (select deptno from dept where loc in (select loc from dept where deptno = 30));
++--------+
+| ename  |
++--------+
+| Mukul  |
+| Bhumur |
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| BLAKE  |
+| mike   |
+| TURNER |
+| JAMES  |
++--------+
+9 rows in set (0.00 sec)
+
+
+Consider emp,dept,salgrade tables for the following
+
+12
+Company decides to give rise to all employees depending on their salary grade. Information of which is stored in increment table. Create the table. Store the data and solve the query.
+Create table increment
+(grade int,
+Hike int);
+
+mysql> Create table increment
+    -> (grade int,
+    -> Hike int);
+Query OK, 0 rows affected (0.02 sec)
+
+
+
+Insert following data
+(1,10),(2,7),(3,5),(4,2),(5,null)
+
+mysql> insert into increment values(1,10),(2,7),(3,5),(4,2),(5,null);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+
+
+Display empno,ename.deptno,dname,sal,grade and hike for all employees.
+
+mysql> select e.empno,e.ename,d.deptno,d.dname,e.sal,s.grade,h.hike from emp e join dept d on e.deptno =d.deptno join salgrade s on e.sal between s.losal and s.hisal join increment h on s.grade = h.grade;
++-------+--------+--------+------------+---------+-------+------+
+| empno | ename  | deptno | dname      | sal     | grade | hike |
++-------+--------+--------+------------+---------+-------+------+
+|  7369 | SMITH  |     20 | RESEARCH   |  924.00 |     1 |   10 |
+|  7900 | JAMES  |     30 | SALES      | 1097.25 |     1 |   10 |
+|  7876 | ADAMS  |     20 | RESEARCH   | 1270.50 |     2 |    7 |
+|  7499 | ALLEN  |     30 | SALES      | 1848.00 |     3 |    5 |
+|  7521 | WARD   |     30 | SALES      | 1443.75 |     3 |    5 |
+|  7654 | MARTIN |     30 | SALES      | 1443.75 |     3 |    5 |
+|  7844 | TURNER |     30 | SALES      | 1732.50 |     3 |    5 |
+|  7934 | MILLER |     10 | ACCOUNTING | 1501.50 |     3 |    5 |
+|  7782 | CLARK  |     10 | ACCOUNTING | 2829.75 |     4 |    2 |
+|  4652 | hike   |     20 | RESEARCH   | 5001.01 |     5 | NULL |
+|  7566 | JONES  |     20 | RESEARCH   | 3436.13 |     5 | NULL |
+|  7698 | BLAKE  |     30 | SALES      | 3291.75 |     5 | NULL |
+|  7777 | mike   |     30 | SALES      | 5001.01 |     5 | NULL |
+|  7788 | SCOTT  |     20 | RESEARCH   | 3465.00 |     5 | NULL |
+|  7839 | KING   |     10 | ACCOUNTING | 5775.00 |     5 | NULL |
+|  7902 | FORD   |     20 | RESEARCH   | 3465.00 |     5 | NULL |
++-------+--------+--------+------------+---------+-------+------+
+16 rows in set (0.00 sec)
+
+mysql> select e.empno,e.ename,d.deptno,d.dname,e.sal,s.grade,h.hike from emp e join dept d join salgrade s join increment h on e.deptno=d.deptno and (e.sal between s.losal and s.hisal) and (s.grade = h.grade);
++-------+--------+--------+------------+---------+-------+------+
+| empno | ename  | deptno | dname      | sal     | grade | hike |
++-------+--------+--------+------------+---------+-------+------+
+|  7369 | SMITH  |     20 | RESEARCH   |  924.00 |     1 |   10 |
+|  7900 | JAMES  |     30 | SALES      | 1097.25 |     1 |   10 |
+|  7876 | ADAMS  |     20 | RESEARCH   | 1270.50 |     2 |    7 |
+|  7499 | ALLEN  |     30 | SALES      | 1848.00 |     3 |    5 |
+|  7521 | WARD   |     30 | SALES      | 1443.75 |     3 |    5 |
+|  7654 | MARTIN |     30 | SALES      | 1443.75 |     3 |    5 |
+|  7844 | TURNER |     30 | SALES      | 1732.50 |     3 |    5 |
+|  7934 | MILLER |     10 | ACCOUNTING | 1501.50 |     3 |    5 |
+|  7782 | CLARK  |     10 | ACCOUNTING | 2829.75 |     4 |    2 |
+|  4652 | hike   |     20 | RESEARCH   | 5001.01 |     5 | NULL |
+|  7566 | JONES  |     20 | RESEARCH   | 3436.13 |     5 | NULL |
+|  7698 | BLAKE  |     30 | SALES      | 3291.75 |     5 | NULL |
+|  7777 | mike   |     30 | SALES      | 5001.01 |     5 | NULL |
+|  7788 | SCOTT  |     20 | RESEARCH   | 3465.00 |     5 | NULL |
+|  7839 | KING   |     10 | ACCOUNTING | 5775.00 |     5 | NULL |
+|  7902 | FORD   |     20 | RESEARCH   | 3465.00 |     5 | NULL |
++-------+--------+--------+------------+---------+-------+------+
+16 rows in set (0.00 sec)
+
+
+1. Write a query to get the distinct Mondays from hiredate in emp tables.
+
+mysql> select ename,hiredate from emp where dayname(hiredate)='Monday';
++--------+------------+
+| ename  | hiredate   |
++--------+------------+
+| MARTIN | 1981-09-28 |
++--------+------------+
+1 row in set (0.00 sec)
+
+
+2. Write a query to calculate your age in years.
+
+mysql> select ename,floor(datediff(curdate(),hiredate)/365) 'Experience' from emp;
++--------+------------+
+| ename  | Experience |
++--------+------------+
+| Mukul  |       NULL |
+| Raj    |       NULL |
+| Bhumur |       NULL |
+| hike   |         42 |
+| SMITH  |         44 |
+| ALLEN  |         44 |
+| WARD   |         44 |
+| JONES  |         44 |
+| MARTIN |         43 |
+| BLAKE  |         43 |
+| mike   |         42 |
+| CLARK  |         43 |
+| SCOTT  |         42 |
+| KING   |         43 |
+| TURNER |         43 |
+| ADAMS  |         42 |
+| JAMES  |         43 |
+| FORD   |         43 |
+| MILLER |         43 |
++--------+------------+
+19 rows in set (0.00 sec)
+
+
+
+3. Write a query to get the current date in the following format.
+Sample date : 04-sep-2014
+Output : September 4, 2014
+
+mysql> select concat(date_format(hiredate,'%M'),' ',date_format(hiredate,'%d'),', ',date_format(hiredate,'%Y')) "DATE" from emp;
++--------------------+
+| DATE               |
++--------------------+
+| NULL               |
+| NULL               |
+| NULL               |
+| May 16, 1982       |
+| December 17, 1980  |
+| February 20, 1981  |
+| February 22, 1981  |
+| April 02, 1981     |
+| September 28, 1981 |
+| May 01, 1981       |
+| May 16, 1982       |
+| June 09, 1981      |
+| December 09, 1982  |
+| November 17, 1981  |
+| September 08, 1981 |
+| January 12, 1983   |
+| December 03, 1981  |
+| December 03, 1981  |
+| January 23, 1982   |
++--------------------+
+19 rows in set (0.00 sec)
+
+4. Write a query to get the current date in Thursday September 2014 format.
+Thursday September 2014
+
+mysql> select concat(dayname(curdate()),' ',date_format(curdate(),'%M'),' ',date_format(curdate(),'%Y')) "TODAY" ;
++----------------------+
+| TODAY                |
++----------------------+
+| Wednesday March 2025 |
++----------------------+
+1 row in set (0.00 sec)
+
+
+5. Write a query to extract the year from the current date.
+
+mysql> select date_format(curdate(),'%Y');
++-----------------------------+
+| date_format(curdate(),'%Y') |
++-----------------------------+
+| 2025                        |
++-----------------------------+
+1 row in set (0.00 sec)
+
+
+6. Write a query to get the  name and hire date from employees table 
+where hire date between '1987-06-01' and '1987-07-30'
+
+mysql> select ename"Employee Name", hiredate from emp where hiredate between '1987-06-01' and '1987-07-30';
+Empty set (0.00 sec)
+
+mysql> update emp set hiredate = '1987-06-29' where ename='Bhumur';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select ename"Employee Name", hiredate from emp where hiredate between '1987-06-01' and '1987-07-30';
++---------------+------------+
+| Employee Name | hiredate   |
++---------------+------------+
+| Bhumur        | 1987-06-29 |
++---------------+------------+
+1 row in set (0.00 sec)
+
+
+7. Write a query to display the current date in the following format.
+Sample output: Thursday 4th September 2014 00:00:00
+
+mysql> select concat(dayname(curdate()),' ',date_format(curdate(),'%D'),' ',date_format(curdate(),'%M'),' ',date_format(curdate(),'%Y'),' ', hour(now()),':',minute(now()),':',second(now())) "TODAY" ;
++------------------------------------+
+| TODAY                              |
++------------------------------------+
+| Wednesday 26th March 2025 14:38:48 |
++------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+8. Write a query to display the current date in the following format.
+Sample output: 05/09/2014
+
+mysql> select concat_ws('/',date_format(curdate(),'%d'),date_format(curdate(),'%m'),date_format(curdate
+(),'%Y')) "TODAY" ;
++------------+
+| TODAY      |
++------------+
+| 26/03/2025 |
++------------+
+1 row in set (0.00 sec)
+
+
+
+9. Write a query to display the current date in the following format.
+Sample output: 12:00 AM Sep 5, 2014
+
+mysql> select concat(date_format(curtime(),'%h'),':',date_format(curtime(),'%i'),' ',date_format(curtime(),'%p'),' ',date_format(curdate(),'%m'),' ',date_format(curdate(),'%d'),', ',date_format(curdate(),'%Y')) "TODAY";
++----------------------+
+| TODAY                |
++----------------------+
+| 03:03 PM 03 26, 2025 |
++----------------------+
+1 row in set (0.00 sec)
+
+
+
+10. Write a query to get the employees who joined in the month of June.
+
+mysql> select ename from emp where 'june'=date_format(hiredate,'%M');
++--------+
+| ename  |
++--------+
+| Bhumur |
+| CLARK  |
++--------+
+2 rows in set (0.00 sec)
+
+
+
+11. Write a query to get the years in which more than 10 employees joined.
+
+select hiredate from emp group by date_format(hiredate,'%y') having count(*)=10
+
+mysql>  select date_format(hiredate,'%Y') "Year of Joining" ,count(*)"num" from emp group by date_format(hiredate,'%Y') having count(*)=10;
++-----------------+-----+
+| Year of Joining | num |
++-----------------+-----+
+| 1981            |  10 |
++-----------------+-----+
+1 row in set (0.00 sec)
+
+
+12. Write a query to get   name of employees who joined in 1987.
+
+mysql> select ename from emp where date_format(hiredate,'%Y')=1987;
++--------+
+| ename  |
++--------+
+| Bhumur |
++--------+
+1 row in set (0.00 sec)
+
+
+13. Write a query to get employee ID,  name, and date of first salary of the 
+employees.  
+
+mysql> select empno, ename, date_add(hiredate,interval 30 day) "First Salary" from emp;
++-------+--------+--------------+
+| empno | ename  | First Salary |
++-------+--------+--------------+
+|  1234 | Mukul  | NULL         |
+|  2222 | Raj    | NULL         |
+|  2345 | Bhumur | 1987-07-29   |
+|  4652 | hike   | 1982-06-15   |
+|  7369 | SMITH  | 1981-01-16   |
+|  7499 | ALLEN  | 1981-03-22   |
+|  7521 | WARD   | 1981-03-24   |
+|  7566 | JONES  | 1981-05-02   |
+|  7654 | MARTIN | 1981-10-28   |
+|  7698 | BLAKE  | 1981-05-31   |
+|  7777 | mike   | 1982-06-15   |
+|  7782 | CLARK  | 1981-07-09   |
+|  7788 | SCOTT  | 1983-01-08   |
+|  7839 | KING   | 1981-12-17   |
+|  7844 | TURNER | 1981-10-08   |
+|  7876 | ADAMS  | 1983-02-11   |
+|  7900 | JAMES  | 1982-01-02   |
+|  7902 | FORD   | 1982-01-02   |
+|  7934 | MILLER | 1982-02-22   |
++-------+--------+--------------+
+19 rows in set (0.00 sec)

@@ -1,0 +1,12 @@
+package com.cdac.acts.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cdac.acts.fruit.Apple;
+
+public class DateUtil {
+	public static List<Apple> appleList(){
+		List<Apple> list = new ArrayList<>();
+	}
+}

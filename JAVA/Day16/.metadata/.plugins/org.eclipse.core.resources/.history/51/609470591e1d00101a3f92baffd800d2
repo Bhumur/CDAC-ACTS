@@ -1,0 +1,17 @@
+package com.cdac.acts.util;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import com.cdac.acts.book.Book;
+import com.cdac.acts.enums.BookTypeEnum;
+
+public interface DataEntry {
+	public static ArrayList<Book> bookList(){
+		ArrayList<Book> books = new ArrayList<>();
+		books.add(new Book("My Life", BookTypeEnum.valueOf("FIC"), 125.5, LocalDate.parse("2025-12-12"), "Bhumur", 15));
+		
+		
+		return 
+	}
+}

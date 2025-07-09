@@ -1,0 +1,14 @@
+package com.cdac.acts.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.cdac.acts.account.Account;
+import com.cdac.acts.enums.AccountTypeEnum;
+
+public class DataUtil {
+	public Map<String,Account> accountMap(){
+		Map<String,Account> accounts = new HashMap<>();
+		accounts.put("101", new Account("101","Bhumur","bhumur@gmail.com","9462796017",16.56,AccountTypeEnum.valueOf("SA")));
+	}
+}

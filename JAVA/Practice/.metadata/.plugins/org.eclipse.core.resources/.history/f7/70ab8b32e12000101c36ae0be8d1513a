@@ -1,0 +1,12 @@
+package com.cdac.acts.account;
+
+public class Account {
+	private Integer id;
+	private String accountNumber;
+	private String name;
+	private String email;
+	private String phone;
+	private Double balance;
+	private AccountTypeEnum accountType;
+	
+}

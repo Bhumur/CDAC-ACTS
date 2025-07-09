@@ -1,0 +1,10 @@
+package com.cdac.acts.mobile;
+
+public class MobilePhone {
+	private String serialNo;
+	private String brand;
+	private OSEnum os;
+	private String color;
+	private Double price;
+	private Integer ram;
+}

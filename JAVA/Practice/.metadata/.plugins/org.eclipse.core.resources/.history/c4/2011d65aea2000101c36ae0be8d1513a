@@ -1,0 +1,42 @@
+package com.cdac.acts.tester;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.cdac.acts.account.Account;
+import com.cdac.acts.util.DataUtil;
+
+public class AccountTest {
+
+	public static void main(String[] args) {
+		Map<String,Account> accounts = new HashMap<>();
+		String filePath = "Account.dat";
+		File fileName = new File(filePath);
+		
+		if(fileName.exists()) {
+			try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))){
+				try{
+					while(true) {
+						Account a = (Account)ois.readObject();
+						accounts.put(a.getAccountNumber(),a);
+					}
+			}catch(Exception e) {
+				System.out.println("File read Complete");
+			}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			accounts.putAll(DataUtil.accountMap());
+		}
+	}
+
+}

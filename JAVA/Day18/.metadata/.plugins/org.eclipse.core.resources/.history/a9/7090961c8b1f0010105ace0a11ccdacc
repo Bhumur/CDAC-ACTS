@@ -1,0 +1,16 @@
+package com.cdac.acts.enums;
+
+public enum OSEnum {
+	ANDRIOD,
+	IOS;
+	
+	private String str;
+	
+	private OSEnum(String str) {
+		this.str = str;
+	}
+	
+	public String getValue() {
+		return str;
+	}
+}

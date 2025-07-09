@@ -1,0 +1,38 @@
+package com.cdac.acts.tester;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class CopytToNewFile {
+
+	public static void main(String[] args) throws IOException {
+		try(Scanner sc = new Scanner(System.in)){
+			System.out.println("Enter File Path of sou : ");
+			String path1 = sc.next();
+			System.out.println("Enter File Path of des : ");
+			String path2 = sc.next();
+			String text="";
+			BufferedReader br = null;
+			BufferedWriter bw = null;
+			PrintWriter pw = null;
+			try {
+				br = new BufferedReader(new FileReader(path1)); 
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				pw = new PrintWriter(new BufferedWriter(new FileWriter(path1)));
+			}
+			while((text=br.readLine())!=null) {
+				System.out.println(text);
+			}
+		}
+
+	}
+
+}

@@ -1,0 +1,1173 @@
+Name : Bhumur Agrawal
+PRN : 250240120047
+
+
+
+1	Write a stored procedure which will find avg of all the salaries in the table. Display avg sal in the procedure.
+
+mysql> delimiter #
+mysql> create procedure procedure_avgsal()
+    -> begin
+    ->  select avg(sal) as "Avg Salary" from emp;
+    -> end #
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+
+mysql> call procedure_avgsal;
++-------------+
+| Avg Salary  |
++-------------+
+| 2720.368750 |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+2	Write a stored procedure which will find avg salary of dept no 20. Display  avg salary out of the procedure.
+
+mysql> delimiter #
+mysql> create procedure procedure_avgsal1()
+    -> begin
+    ->     select avg(sal) "Avg Salary" from emp where deptno = 20;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call procedure_avgsal1;
++-------------+
+| Avg Salary  |
++-------------+
+| 2926.940000 |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+3	Write a stored procedure which will find avg salary for any deptno passed to it.  Pass deptno as in parameter and avg(sal) as out parameter.          
+
+mysql> delimiter #
+mysql> create procedure procedure_avgsal2(d int, out a decimal(8,2))
+    -> begin
+    ->     select avg(sal) into a from emp where deptno = d;
+    -> end #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> set @d = 20;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call procedure_avgsal2(@d, @a);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @d "Department" , @a "Avg Salary";
++------------+------------+
+| Department | Avg Salary |
++------------+------------+
+|         20 |    2926.94 |
++------------+------------+
+1 row in set (0.00 sec)
+
+
+
+
+4	Write a procedure to calculate total salary of all employees. 
+	Total sal = sal +comm.
+	
+delimiter #
+create procedure procedure_totalsal()
+begin
+    select sal+ifnull(comm,0) "Total Salary" from emp;
+end #
+delimiter ;
+	
+call procedure_totalsal;
+	
+mysql> delimiter #
+mysql> create procedure procedure_totalsal()
+    -> begin
+    ->     select sal+ifnull(comm,0) "Total Salary" from emp;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call procedure_totalsal;
++--------------+
+| Total Salary |
++--------------+
+|         NULL |
+|         NULL |
+|         NULL |
+|      5001.01 |
+|       924.00 |
+|      2148.00 |
+|      1943.75 |
+|      3436.13 |
+|      2843.75 |
+|      3291.75 |
+|      5001.01 |
+|      2829.75 |
+|      3465.00 |
+|      5775.00 |
+|      1732.50 |
+|      1270.50 |
+|      1097.25 |
+|      3465.00 |
+|      1501.50 |
++--------------+
+19 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)	
+	
+	
+	
+5	Pass any number to the procedure and check if it is a perfect number. If the number is perfect, procedure should set value of out parameter as 1 otherwise as 0.   
+
+mysql> create procedure procedure_perfectnum(n int, out o int)
+    -> begin
+    ->  declare sum int default 0;
+    ->  declare i int default 1;
+    ->  while i<=n/2
+    ->  do
+    ->          if mod(n,i) = 0
+    ->          then
+    ->                  set sum = sum + i;
+    ->          end if;
+    ->          set i = i + 1;
+    ->  end while;
+    ->  if sum = n
+    ->  then
+    ->          set o=1;
+    ->  else
+    ->          set o=0;
+    ->  end if;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> call procedure_perfectnum(6,@o);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @o;
++------+
+| @o   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> call procedure_perfectnum(9,@o);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @o;
++------+
+| @o   |
++------+
+|    0 |
++------+
+1 row in set (0.00 sec)
+
+			
+
+6	Pass empno as a in parameter to the procedure. If empno is found in the table then, display corrosponding salary out of the procedure. If empno is not found in the table then, display 0 out of the parameter.    
+
+delimiter #
+create procedure procedure_empinfo(eno int, out salary decimal(7,2))
+begin
+	set salary = 0;		
+	select sal into salary from emp where empno = eno;
+end #
+
+mysql> delimiter #
+mysql> create procedure procedure_empinfo(eno int, out salary decimal(7,2))
+    -> begin
+    ->  set salary = 0;
+    ->  select sal into salary from emp where empno = eno;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call  procedure_empinfo(7934, @s);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @s;
++---------+
+| @s      |
++---------+
+| 1501.50 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> call  procedure_empinfo(7999, @s);
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> select @s;
++------+
+| @s   |
++------+
+| 0.00 |
++------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+7	Write procedure 'prime' which will check if number passed to the procedure is prime. Procedure should display 1 if prime or 0 if nit prime. Use out parameter to display value out 	of the procedure and in parameter to pass value to the procedure.
+
+
+create procedure procedure_checkprime(n int, out o int)
+begin
+    declare i int default 2;
+	prime : loop
+		if i<=n/2
+		then
+			if mod(n,i) = 0
+			then
+				set o = 0;
+				leave prime;
+			end if;
+		else
+			set o = 1;
+			leave prime;
+		end if;
+		set i = i + 1;
+	end loop prime;
+end #
+
+mysql> create procedure procedure_checkprime(n int, out o int)
+    -> begin
+    ->     declare i int default 2;
+    ->  prime : loop
+    ->          if i<=n/2
+    ->          then
+    ->                  if mod(n,i) = 0
+    ->                  then
+    ->                          set o = 0;
+    ->                          leave prime;
+    ->                  end if;
+    ->          else
+    ->                  set o = 1;
+    ->                  leave prime;
+    ->          end if;
+    ->          set i = i + 1;
+    ->  end loop prime;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call procedure_checkprime(55, @s) #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @s #
++------+
+| @s   |
++------+
+|    0 |
++------+
+1 row in set (0.00 sec)
+
+mysql> call procedure_checkprime(5, @s) #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @s #
++------+
+| @s   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> call procedure_checkprime(41, @s) #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @s #
++------+
+| @s   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+
+8	Copy table emp as empTmp.
+	Write the procedure to accept job as in parameter and perform following actions.
+	Hike in sal by  5% if employee is manager.
+	Hike in sal by 10% if employee is clerk
+	Hile in sal by 7% if employee is analyse
+	otherwise hike by 3%.
+	​​​​​​​Make necessary changes in empTmp table.
+
+
+delimiter #
+
+create procedure procedure_job(j varchar(10))
+begin
+	if j = 'manager'
+	then
+		update empTmp set sal=sal*1.05 where j = job;
+	elseif j = 'clerk'
+	then
+		update empTmp set sal=sal*1.1 where j = job;
+	elseif j = 'analyst'
+	then
+		update empTmp set sal=sal*1.07 where j = job;
+	else
+		update empTmp set sal=sal*1.03 where job not in ('manager', 'clerk', 'analyst') and j=job;
+	end if;
+end #
+
+delimiter ;
+
+
+
+mysql> delimiter #
+mysql>
+mysql> create procedure procedure_job(j varchar(10))
+    -> begin
+    ->  if j = 'manager'
+    ->  then
+    ->          update empTmp set sal=sal*1.05 where j = job;
+    ->  elseif j = 'clerk'
+    ->  then
+    ->          update empTmp set sal=sal*1.1 where j = job;
+    ->  elseif j = 'analyst'
+    ->  then
+    ->          update empTmp set sal=sal*1.07 where j = job;
+    ->  else
+    ->          update empTmp set sal=sal*1.03 where job not in ('manager', 'clerk', 'analyst') and j=job;
+    ->  end if;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> delimiter ;
+mysql>
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1744.52 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2699.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2109.38 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5642.40 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2109.38 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5405.28 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4646.64 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 5627.24 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2531.26 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2398.70 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2071.60 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 5627.24 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 2834.85 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> call procedure_job('manager');
+Query OK, 3 rows affected, 2 warnings (0.01 sec)
+
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1744.52 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2699.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2109.38 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5924.52 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2109.38 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5675.54 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4878.97 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 5627.24 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2531.26 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2398.70 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2071.60 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 5627.24 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 2834.85 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> call procedure_job('clerk');
+Query OK, 4 rows affected, 2 warnings (0.00 sec)
+
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1918.97 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2699.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2109.38 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5924.52 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2109.38 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5675.54 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4878.97 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 5627.24 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2531.26 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2638.57 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2278.76 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 5627.24 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 3118.34 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> call procedure_job('analyst');
+Query OK, 2 rows affected, 2 warnings (0.01 sec)
+
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1918.97 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2699.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2109.38 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5924.52 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2109.38 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5675.54 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4878.97 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 6021.15 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2531.26 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2638.57 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2278.76 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 6021.15 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 3118.34 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> call procedure_job('salesman');
+Query OK, 4 rows affected, 4 warnings (0.00 sec)
+
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1918.97 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2780.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2172.66 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5924.52 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2172.66 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5675.54 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7525.88 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4878.97 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 6021.15 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2607.20 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2638.57 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2278.76 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 6021.15 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 3118.34 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> call procedure_job('software');
+Query OK, 2 rows affected, 2 warnings (0.01 sec)
+
+mysql> call procedure_job('boss');
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from empTmp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  1234 | Mukul  | NULL      | NULL | NULL       |    NULL |    NULL |     50 |
+|  2222 | Raj    | Analyst   | NULL | NULL       |    NULL |    NULL |     40 |
+|  2345 | Bhumur | NULL      | NULL | 1987-06-29 |    NULL |    NULL |     50 |
+|  4652 | hike   | SOFTWARE  | 7902 | 1982-05-16 | 7751.66 |    NULL |     20 |
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 | 1918.97 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 2780.99 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 2172.66 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 5924.52 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 2172.66 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 5675.54 |    NULL |     30 |
+|  7777 | mike   | SOFTWARE  | 7902 | 1982-05-16 | 7751.66 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 4878.97 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 6021.15 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 8437.50 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 2607.20 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 2638.57 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 2278.76 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 6021.15 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 3118.34 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+19 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+1	Write a function to calculate total salary of an employee.  Call the function in the select clause. 
+	total sal=sal+comm
+	
+delimiter #
+create function caltotalsal(s decimal(7,2), ncomm decimal(7,2)) returns decimal(9,2)
+begin
+	declare totalsal decimal(9,2);
+	set totalsal=s+ifnull(ncomm,0);
+	return totalsal;
+end #
+
+delimiter ;
+
+select empno, ename, caltotalsal(sal, comm) from emp;
+	
+mysql> delimiter #
+mysql> create function caltotalsal(s decimal(7,2), ncomm decimal(7,2)) returns decimal(9,2)
+    -> begin
+    ->  declare totalsal decimal(9,2);
+    ->  set totalsal=s+ifnull(ncomm,0);
+    ->  return totalsal;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> delimiter ;
+mysql>
+mysql> select empno, ename, caltotalsal(sal, comm) from emp;
++-------+--------+------------------------+
+| empno | ename  | caltotalsal(sal, comm) |
++-------+--------+------------------------+
+|  1234 | Mukul  |                   NULL |
+|  2222 | Raj    |                   NULL |
+|  2345 | Bhumur |                   NULL |
+|  4652 | hike   |                5001.01 |
+|  7369 | SMITH  |                 924.00 |
+|  7499 | ALLEN  |                2148.00 |
+|  7521 | WARD   |                1943.75 |
+|  7566 | JONES  |                3436.13 |
+|  7654 | MARTIN |                2843.75 |
+|  7698 | BLAKE  |                3291.75 |
+|  7777 | mike   |                5001.01 |
+|  7782 | CLARK  |                2829.75 |
+|  7788 | SCOTT  |                3465.00 |
+|  7839 | KING   |                5775.00 |
+|  7844 | TURNER |                1732.50 |
+|  7876 | ADAMS  |                1270.50 |
+|  7900 | JAMES  |                1097.25 |
+|  7902 | FORD   |                3465.00 |
+|  7934 | MILLER |                1501.50 |
++-------+--------+------------------------+
+19 rows in set (0.00 sec)	
+	
+2	Write a function to generate an email. Call the function in select clause.email is generated as follows
+​​​​​ 	first 2 letters of name + last 2 letters of job @knowit.com. Call the function in the select clause.
+
+delimiter #
+create function genemail(fname varchar(20), ljob varchar(15)) returns varchar(25)
+begin
+	declare email varchar(25);
+	set email = concat(substring(fname,1,2),substring(ljob,-2),'@knowit.com');
+	return email;
+end #
+
+delimiter ;
+
+select ename, job, genemail(ename, job) from emp;
+
+mysql> delimiter #
+mysql> create function genemail(fname varchar(20), ljob varchar(15)) returns varchar(25)
+    -> begin
+    ->  declare email varchar(25);
+    ->  set email = concat(substring(fname,1,2),substring(ljob,-2),'@knowit.com');
+    ->  return email;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> delimiter ;
+mysql>
+mysql> select ename, job, genemail(ename, job) from emp;
++--------+-----------+----------------------+
+| ename  | job       | genemail(ename, job) |
++--------+-----------+----------------------+
+| Mukul  | NULL      | NULL                 |
+| Raj    | Analyst   | Rast@knowit.com      |
+| Bhumur | NULL      | NULL                 |
+| hike   | SOFTWARE  | hiRE@knowit.com      |
+| SMITH  | CLERK     | SMRK@knowit.com      |
+| ALLEN  | SALESMAN  | ALAN@knowit.com      |
+| WARD   | SALESMAN  | WAAN@knowit.com      |
+| JONES  | MANAGER   | JOER@knowit.com      |
+| MARTIN | SALESMAN  | MAAN@knowit.com      |
+| BLAKE  | MANAGER   | BLER@knowit.com      |
+| mike   | SOFTWARE  | miRE@knowit.com      |
+| CLARK  | MANAGER   | CLER@knowit.com      |
+| SCOTT  | ANALYST   | SCST@knowit.com      |
+| KING   | PRESIDENT | KINT@knowit.com      |
+| TURNER | SALESMAN  | TUAN@knowit.com      |
+| ADAMS  | CLERK     | ADRK@knowit.com      |
+| JAMES  | CLERK     | JARK@knowit.com      |
+| FORD   | ANALYST   | FOST@knowit.com      |
+| MILLER | CLERK     | MIRK@knowit.com      |
++--------+-----------+----------------------+
+19 rows in set (0.00 sec)
+
+
+
+3	Write a procedure which accepts job as a 'in' parameter, and display maximunm salary for that job.
+	Write a function cal_sal() which calculates maximum salary for the job. Function should return maximum salary to the procedure. Print max sal in the procedure.
+
+delimiter #
+create procedure procedure_maxsalbyjob(j varchar(10))
+begin
+    select max(sal) "Maximum Salary" from emp where job=j;
+end #
+delimiter ;
+
+mysql> delimiter #
+mysql> create procedure procedure_maxsalbyjob(j varchar(10))
+    -> begin
+    ->     select max(sal) "Maximum Salary" from emp where job=j;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql>
+mysql> call procedure_maxsalbyjob('manager');
++----------------+
+| Maximum Salary |
++----------------+
+|        3436.13 |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+1	Write a cursor which will handle all rows having deptno 20;
+
+delimiter //
+create procedure cursor_proc2()
+begin
+  declare a int;
+  declare b varchar(15);
+  declare c int;
+  declare f int default 0;
+  declare cur cursor for
+    select empno,ename,deptno
+    from emp
+    where deptno=20;
+  declare continue handler for
+  not found set f=1; 
+  open cur;
+  print:loop
+    fetch cur into a,b,c;
+    select a,b,c;
+    if f=1
+    then 
+      leave print;
+    end if;
+   end loop print;
+  close cur;
+end //
+delimiter ;
+
+mysql> delimiter #
+mysql> create procedure cursor_empdeptno()
+    -> begin
+    ->   declare a int;
+    ->   declare b varchar(15);
+    ->   declare c int;
+    ->   declare f int default 0;
+    ->   declare cur cursor for
+    ->     select empno,ename,deptno
+    ->     from emp
+    ->     where deptno=20;
+    ->   declare continue handler for
+    ->   not found set f=1;
+    ->   open cur;
+    ->   print:loop
+    ->     fetch cur into a,b,c;
+    ->     select a,b,c;
+    ->     if f=1
+    ->     then
+    ->       leave print;
+    ->     end if;
+    ->    end loop print;
+    ->   close cur;
+    -> end #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql>
+mysql> call cursor_empdeptno;
++------+------+------+
+| a    | b    | c    |
++------+------+------+
+| 4652 | hike |   20 |
++------+------+------+
+1 row in set (0.00 sec)
+
++------+-------+------+
+| a    | b     | c    |
++------+-------+------+
+| 7369 | SMITH |   20 |
++------+-------+------+
+1 row in set (0.00 sec)
+
++------+-------+------+
+| a    | b     | c    |
++------+-------+------+
+| 7566 | JONES |   20 |
++------+-------+------+
+1 row in set (0.00 sec)
+
++------+-------+------+
+| a    | b     | c    |
++------+-------+------+
+| 7788 | SCOTT |   20 |
++------+-------+------+
+1 row in set (0.01 sec)
+
++------+-------+------+
+| a    | b     | c    |
++------+-------+------+
+| 7876 | ADAMS |   20 |
++------+-------+------+
+1 row in set (0.01 sec)
+
++------+------+------+
+| a    | b    | c    |
++------+------+------+
+| 7902 | FORD |   20 |
++------+------+------+
+1 row in set (0.01 sec)
+
++------+------+------+
+| a    | b    | c    |
++------+------+------+
+| 7902 | FORD |   20 |
++------+------+------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+2	Write a cursor to increment salary as follows
+     	Clerk 10 % rise
+     	Manager 5% rise
+     	Analyst 7% rise.
+    	No rise given for other jobs. 
+	
+	
+delimiter #
+create procedure cursor_empdeptno()
+begin
+  	declare eno int;
+  	declare jname varchar(15);
+	declare f int default 0;
+  	declare cur cursor for select empno,job from emp;
+  	declare continue handler for not found set f=1; 
+  	open cur;
+  	print:loop
+    		fetch cur into eno,jname;
+    		select eno, jname;
+		if jname='manager'
+		then
+			update emp set sal=sal*1.05 where empno = eno;
+		elseif jname = 'clerk'
+		then
+			update emp set sal=sal*1.1 where empno = eno;
+		elseif jname = 'analyst'
+		then
+			update emp set sal=sal*1.07 where empno = eno;
+		end if;
+    		if f=1
+    		then 
+      			leave print;
+    		end if;
+   	end loop print;
+  	close cur;
+end #
+delimiter ;
+
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+
+mysql> delimiter #
+mysql> create procedure cursor_empdeptno()
+    -> begin
+    ->          declare eno int;
+    ->          declare jname varchar(15);
+    ->  declare f int default 0;
+    ->          declare cur cursor for select empno,job from emp;
+    ->          declare continue handler for not found set f=1;
+    ->          open cur;
+    ->          print:loop
+    ->                  fetch cur into eno,jname;
+    ->                  select eno, jname;
+    ->          if jname='manager'
+    ->          then
+    ->                  update emp set sal=sal*1.05 where empno = eno;
+    ->          elseif jname = 'clerk'
+    ->          then
+    ->                  update emp set sal=sal*1.1 where empno = eno;
+    ->          elseif jname = 'analyst'
+    ->          then
+    ->                  update emp set sal=sal*1.07 where empno = eno;
+    ->          end if;
+    ->                  if f=1
+    ->                  then
+    ->                          leave print;
+    ->                  end if;
+    ->          end loop print;
+    ->          close cur;
+    -> end #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call cursor_empdeptno;
++------+-------+
+| eno  | jname |
++------+-------+
+| 7369 | CLERK |
++------+-------+
+1 row in set (0.00 sec)
+
++------+----------+
+| eno  | jname    |
++------+----------+
+| 7499 | SALESMAN |
++------+----------+
+1 row in set (0.01 sec)
+
++------+----------+
+| eno  | jname    |
++------+----------+
+| 7521 | SALESMAN |
++------+----------+
+1 row in set (0.01 sec)
+
++------+---------+
+| eno  | jname   |
++------+---------+
+| 7566 | MANAGER |
++------+---------+
+1 row in set (0.01 sec)
+
++------+----------+
+| eno  | jname    |
++------+----------+
+| 7654 | SALESMAN |
++------+----------+
+1 row in set (0.01 sec)
+
++------+---------+
+| eno  | jname   |
++------+---------+
+| 7698 | MANAGER |
++------+---------+
+1 row in set (0.01 sec)
+
++------+---------+
+| eno  | jname   |
++------+---------+
+| 7782 | MANAGER |
++------+---------+
+1 row in set (0.01 sec)
+
++------+---------+
+| eno  | jname   |
++------+---------+
+| 7788 | ANALYST |
++------+---------+
+1 row in set (0.02 sec)
+
++------+-----------+
+| eno  | jname     |
++------+-----------+
+| 7839 | PRESIDENT |
++------+-----------+
+1 row in set (0.02 sec)
+
++------+----------+
+| eno  | jname    |
++------+----------+
+| 7844 | SALESMAN |
++------+----------+
+1 row in set (0.02 sec)
+
++------+-------+
+| eno  | jname |
++------+-------+
+| 7876 | CLERK |
++------+-------+
+1 row in set (0.03 sec)
+
++------+-------+
+| eno  | jname |
++------+-------+
+| 7900 | CLERK |
++------+-------+
+1 row in set (0.03 sec)
+
++------+---------+
+| eno  | jname   |
++------+---------+
+| 7902 | ANALYST |
++------+---------+
+1 row in set (0.03 sec)
+
++------+-------+
+| eno  | jname |
++------+-------+
+| 7934 | CLERK |
++------+-------+
+1 row in set (0.03 sec)
+
++------+-------+
+| eno  | jname |
++------+-------+
+| 7934 | CLERK |
++------+-------+
+1 row in set (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  880.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 3123.75 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2992.50 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2572.50 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3210.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1210.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 | 1045.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3210.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1573.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+
+
+3	Pass job as a parameter to procedure and display all employees working
+​​​​​​​    	for the specified job using cursor.
+
+
+delimiter #
+create procedure cursor_empjob(spejob varchar(25))
+begin
+  	declare eno int;
+  	declare name varchar(15);
+	declare jobname varchar(15);
+
+	declare f int default 0;
+  	declare cur cursor for select empno,ename,job from emp;
+  	declare continue handler for not found set f=1; 
+  	open cur;
+  	print:loop
+    		fetch cur into eno,name,jobname;
+		if spejob=jobname
+		then
+			select eno,name;
+		end if;
+    		if f=1
+    		then 
+      			leave print;
+    		end if;
+   	end loop print;
+  	close cur;
+end #
+delimiter ;
+
+
+
+mysql> delimiter #
+mysql> create procedure cursor_empjob(spejob varchar(25))
+    -> begin
+    ->          declare eno int;
+    ->          declare name varchar(15);
+    ->  declare jobname varchar(15);
+    ->
+    ->  declare f int default 0;
+    ->          declare cur cursor for select empno,ename,job from emp;
+    ->          declare continue handler for not found set f=1;
+    ->          open cur;
+    ->          print:loop
+    ->                  fetch cur into eno,name,jobname;
+    ->          if spejob=jobname
+    ->          then
+    ->                  select eno,name;
+    ->          end if;
+    ->                  if f=1
+    ->                  then
+    ->                          leave print;
+    ->                  end if;
+    ->          end loop print;
+    ->          close cur;
+    -> end #
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call cursor_empjob('manager');
++------+-------+
+| eno  | name  |
++------+-------+
+| 7566 | JONES |
++------+-------+
+1 row in set (0.00 sec)
+
++------+-------+
+| eno  | name  |
++------+-------+
+| 7698 | BLAKE |
++------+-------+
+1 row in set (0.00 sec)
+
++------+-------+
+| eno  | name  |
++------+-------+
+| 7782 | CLARK |
++------+-------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call cursor_empjob('clerk');
++------+-------+
+| eno  | name  |
++------+-------+
+| 7369 | SMITH |
++------+-------+
+1 row in set (0.00 sec)
+
++------+-------+
+| eno  | name  |
++------+-------+
+| 7876 | ADAMS |
++------+-------+
+1 row in set (0.00 sec)
+
++------+-------+
+| eno  | name  |
++------+-------+
+| 7900 | JAMES |
++------+-------+
+1 row in set (0.01 sec)
+
++------+--------+
+| eno  | name   |
++------+--------+
+| 7934 | MILLER |
++------+--------+
+1 row in set (0.01 sec)
+
++------+--------+
+| eno  | name   |
++------+--------+
+| 7934 | MILLER |
++------+--------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call cursor_empjob('salesman');
++------+-------+
+| eno  | name  |
++------+-------+
+| 7499 | ALLEN |
++------+-------+
+1 row in set (0.00 sec)
+
++------+------+
+| eno  | name |
++------+------+
+| 7521 | WARD |
++------+------+
+1 row in set (0.01 sec)
+
++------+--------+
+| eno  | name   |
++------+--------+
+| 7654 | MARTIN |
++------+--------+
+1 row in set (0.01 sec)
+
++------+--------+
+| eno  | name   |
++------+--------+
+| 7844 | TURNER |
++------+--------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call cursor_empjob('analyst');
++------+-------+
+| eno  | name  |
++------+-------+
+| 7788 | SCOTT |
++------+-------+
+1 row in set (0.00 sec)
+
++------+------+
+| eno  | name |
++------+------+
+| 7902 | FORD |
++------+------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)

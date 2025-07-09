@@ -1,0 +1,29 @@
+package com.cdac.acts.fruit;
+
+import java.util.List;
+
+public class AppleTest {
+
+	public static void main(String[] args) {
+		List<Apple> apples = DataUtil.appleList();
+		int op;
+		try(Scanner sc = new Scanner(System.in)){
+			do {
+				System.out.print("1.     Filter by weight\r\n"
+						+ "2.     filter by color\r\n"
+						+ "3.     filter by color and weight\r\n"
+						+ "4.     filter by color, weight and taste\r\n"
+						+ "5.     Sort by weight\r\n"
+						+ "6.     Sort by color\r\n"
+						+ "7.     Remove red apples\r\n"
+						+ "8.     Removed Green apples\r\n"
+						+ "9.     Convert to Set collection"
+						+ "0.     EXIT\n\n"
+						+ "Enter Your Choice : ");
+				op = sc.nextInt();
+			}
+		}while(op!=0);
+		
+	}
+
+}

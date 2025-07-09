@@ -1,0 +1,145 @@
+package com.cdac.acts.tester;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import javax.security.auth.login.AccountNotFoundException;
+
+import com.cdac.acts.account.Account;
+import com.cdac.acts.enums.AccountTypeEnum;
+import com.cdac.acts.exception.InvalidAccountException;
+import com.cdac.acts.util.DataUtil;
+
+public class AccountTest {
+
+	public static void main(String[] args) {
+		Map<String,Account> accounts = new HashMap<>();
+		String filePath = "Account.dat";
+		File fileName = new File(filePath);
+		
+		if(fileName.exists()) {
+			try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))){
+				try{
+					while(true) {
+						Account a = (Account)ois.readObject();
+						accounts.put(a.getAccountNumber(),a);
+					}
+			}catch(Exception e) {
+				System.out.println("File read Complete");
+			}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			accounts.putAll(DataUtil.accountMap());
+		}
+		int op ;
+		try(Scanner sc = new Scanner(System.in)){
+			do {
+				System.out.println("1. Add Account.");
+				System.out.println("2. Display an Account by Account Number.");
+				System.out.println("3. Display All.");
+				System.out.println("4. Remove Account.");
+				System.out.println("5. Withdrew");
+				System.out.println("6. Sort dec");
+				System.out.println("7. EXIT");
+				System.out.print("\n\nEnter your choice : ");
+				op = sc.nextInt();
+				switch(op) {
+					case 1: {
+						System.out.println("______________________ADDING ACCOUNT______________________");
+						System.out.print("Enter Account No : ");
+						String accNo = sc.next();
+						System.out.print("Enter Name : ");
+						String name = sc.next();
+						System.out.print("Enter Email : ");
+						String email = sc.next();
+						System.out.print("Enter Phone No : ");
+						String phone = sc.next();
+						System.out.print("Enter Balance : ");
+						Double balance = sc.nextDouble();
+						System.out.print("Enter Type Of Account [SA(Saving Account), CA(Current Acconunt), FD(Fixed Deposite) : ");
+						String strType = sc.next();
+						AccountTypeEnum type = AccountTypeEnum.valueOf(strType);
+						accounts.put(accNo, new Account(accNo,name,email,phone,balance,type));
+						System.out.println("Account Added Succesfully");
+					}
+					case 2: {
+						System.out.println("______________________DISPLAY ACCOUNT BY ACCNO______________________");
+						String accNo;
+						try {
+							System.out.print("Enter Account No : ");
+							accNo = sc.next();
+							if(accounts.get(accNo)==null) {
+								throw new AccountNotFoundException("ACCOUNT WITH THIS ACCOUNT NUMBER NOT EXISIS");
+							}
+						}catch(AccountNotFoundException e) {
+							e.printStackTrace();
+							break;
+						}
+						System.out.println(accounts.get(accNo));
+						break;
+					}
+					case 3: {
+						System.out.println("______________________DISPLAY ALL ACCOUNTS______________________");
+						accounts.forEach((k,v) -> System.out.println("Key -> " + k + " and value -> " + v));
+						break;
+					}
+					case 4: {
+						System.out.println("______________________REMOVE ACCOUNTS______________________");
+						String accNo;
+						try {
+							System.out.print("Enter Account No : ");
+							accNo = sc.next();
+							if(accounts.get(accNo)==null) {
+								throw new AccountNotFoundException("ACCOUNT WITH THIS ACCOUNT NUMBER NOT EXISIS");
+							}
+						}catch(AccountNotFoundException e) {
+							e.printStackTrace();
+							break;
+						}
+						accounts.remove(accNo);
+						System.out.println("ACCOUNT SUCCESSFULLY REMOVED");
+						break;
+					}
+					case 5: {
+						System.out.println("______________________WITHDREWAL______________________");
+						String accNo;
+						try {
+							System.out.print("Enter Account No : ");
+							accNo = sc.next();
+							if(accounts.get(accNo)==null) {
+								throw new AccountNotFoundException("ACCOUNT WITH THIS ACCOUNT NUMBER NOT EXISIS");
+							}
+						}catch(AccountNotFoundException e) {
+							e.printStackTrace();
+							break;
+						}
+						try { 
+							if(accounts.get(accNo).getAccountType()==AccountTypeEnum.valueOf("FD")) {
+								throw new InvalidAccountException("ACCOUNT WITH THIS ACCOUNT NUMBER NOT EXISIS");
+							}
+						}catch(InvalidAccountException e) {
+							e.printStackTrace();
+							break;
+						}
+						System.out.print("Enter Amount To be WithDrawan : ");
+						Double amt = sc.nextDouble();
+						accounts.get(accNo).withdrew(amt);
+					}
+				}
+			}while(op!=7);
+		}
+		
+	}
+
+}

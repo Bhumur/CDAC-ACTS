@@ -1,0 +1,49 @@
+package com.cdac.acts.queue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cdac.acts.exeception.QueueEmptyException;
+
+public class Queue {
+	private List<Integer> queue  = new ArrayList<>();
+	private Integer start;
+	private Integer end;
+	
+	public Queue() {
+		this.queue = null;
+		this.start = 0;
+		this.end = 0;
+	}
+	
+	public Queue(ArrayList<Integer> list) {
+		this.queue = list;
+		this.start = 0;
+		this.end = list.size()-1;
+	}
+	
+	public List<Integer> getQueue(){
+		List<Integer> queueReturn  = new ArrayList<>();
+		for(int i=start;i<=end;i++) {
+			queueReturn.add(queue.get(i));
+		}
+		//queueReturn = queue.subList(start, end);
+		return queueReturn;
+	}
+	public void push(Integer x) {
+		System.out.println(queue.add(x));
+		end++;
+	}
+	public Integer pop() throws QueueEmptyException {
+		if(empty()) {
+			throw new QueueEmptyException("Queue Is Empty");
+		}
+		return queue.get(start++);
+	}
+	public Boolean empty() {
+		if(start==end) {
+			return true;
+		}
+		return false;
+	}
+}

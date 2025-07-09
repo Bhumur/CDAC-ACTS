@@ -1,0 +1,51 @@
+package cdac;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Login_SauceDemo {
+    public static void main(String[] args) {       
+
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Navigate to the login page
+            driver.get("https://artoftesting.com/samplesiteforselenium");
+            Thread.sleep(1000);
+
+            // Locate username and password fields
+            WebElement obj_username = driver.findElement(By.id("fname"));
+            //WebElement obj_password = driver.findElement(By.id("password"));
+
+            Thread.sleep(1000);
+            
+            // Enter credentials
+            obj_username.sendKeys("standard_user");
+            obj_password.sendKeys("secret_sauce");
+
+            Thread.sleep(1000);
+            
+            // Click the login button
+            WebElement obj_loginButton = driver.findElement(By.id("login-button"));
+            obj_loginButton.click();
+            Thread.sleep(1000);
+            
+            // Simple login verification (check URL)
+            Thread.sleep(2000); // Wait for navigation
+            if (driver.getCurrentUrl().contains("inventory.html")) {
+                System.out.println("Login successful!");
+            } else {
+                System.out.println("Login failed.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+            driver.quit();
+        }
+    }
+}

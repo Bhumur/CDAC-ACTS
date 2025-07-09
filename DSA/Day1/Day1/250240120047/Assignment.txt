@@ -1,0 +1,177 @@
+- 26. Remove Duplicates from Sorted Array
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+Ans: 
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int i=1,j=1;
+        for(;j<nums.length;j++){
+            if(nums[j]!=nums[j-1]){
+                nums[i]=nums[j];
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+
+
+- 27. Remove Element
+https://leetcode.com/problems/remove-element/
+
+Ans: 
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        for(int i=0,j=nums.length-1;i<j;){
+            if(nums[i]==val){
+                int x = nums[i];
+                nums[i] = nums[j];
+                nums[j] = x;
+                j--;
+            }
+            else{
+                i++;
+            }
+        }
+        int x = 0 ;
+        for(;x<nums.length;x++){
+            if(nums[x]==val){
+                break;
+            }
+        }
+        
+        return x;
+    }
+}
+
+- 66. Plus One
+https://leetcode.com/problems/plus-one/
+
+Ans: 
+
+class Solution {
+    public int[] plusOne(int[] digits) {
+        for(int i=digits.length-1;i>=0;i--){
+            if(digits[i]!=9){
+                digits[i]++;
+                return digits;
+            }
+            else{
+                digits[i]=0;
+            }
+        }
+        int []x = new int[digits.length+1];
+        x[0]=1;
+        return x;
+    }
+}
+
+
+- 118. Pascal's Triangle
+https://leetcode.com/problems/pascals-triangle/
+
+Ans: class Solution {
+    public List<List<Integer>> generate(int numRows) {
+         List<List<Integer>> list = new ArrayList<>();
+        List<Integer> l = new ArrayList<>();
+        l.add(1);
+        list.add(l);
+        for(int i=1;i<numRows;i++){
+            List<Integer> a = new ArrayList<>();
+            a.add(1);
+            for(int j=1;j<i;j++){
+                a.add(list.get(i-1).get(j-1) + list.get(i-1).get(j));
+            }
+            a.add(1);
+            list.add(a);
+        }
+        return list;
+    }
+}
+
+
+- 217. Contains Duplicate
+https://leetcode.com/problems/contains-duplicate/
+
+Ans: 
+
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+
+        for(int i=0;i<nums.length;i++){
+            if(set.contains(nums[i])){
+                return true;
+            }
+            set.add(nums[i]);
+        }
+        return false;
+    }
+}
+
+- 268. Missing Number
+https://leetcode.com/problems/missing-number/
+
+Ans:
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int sum=0;
+        for(int a : nums){
+            sum+=a;
+        }
+        return (nums.length)*(nums.length+1)/2 - sum;
+    }
+}
+
+- 283. Move Zeroes
+https://leetcode.com/problems/move-zeroes/
+
+Ans:
+
+
+
+- 414. Third Maximum Number
+https://leetcode.com/problems/third-maximum-number/
+
+Ans: 
+
+
+
+- 485. Max Consecutive Ones
+https://leetcode.com/problems/max-consecutive-ones/
+
+Ans:
+
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int maxone=0;
+        int i=0;
+        for(;i<nums.length;){
+            if(nums[i]==1){
+                int j = i;
+                while(j<nums.length && nums[j]==1){
+                    j++;
+                }
+                if(maxone<j-i){
+                    
+                    maxone = j-i;
+                    System.out.println(maxone);
+                }
+                i=j;
+            }
+            else{
+                i++;
+            }
+        }
+        return maxone;
+    }
+}
+
+
+- 674. Longest Continuous Increasing Subsequence
+https://leetcode.com/problems/longest-continuous-increasing-subsequence/
+
+Ans: 
+

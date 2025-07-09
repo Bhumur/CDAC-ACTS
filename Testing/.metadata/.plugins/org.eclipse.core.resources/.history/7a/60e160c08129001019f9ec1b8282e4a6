@@ -1,0 +1,13 @@
+package cdac;
+
+public class test {
+
+	public static void main(String[] args) {
+		Login_SauceDemo_TestNG test = new Login_SauceDemo_TestNG();
+		test.setUp();
+		test.testPositiveLoginSauceDemo();
+		test.testNegativeLoginSauceDemo();
+		System.out.println("Hello!");
+	}
+
+}

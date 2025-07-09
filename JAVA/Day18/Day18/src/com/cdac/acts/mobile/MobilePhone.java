@@ -1,0 +1,88 @@
+package com.cdac.acts.mobile;
+
+import java.util.Objects;
+
+import com.cdac.acts.enums.OSEnum;
+
+public class MobilePhone {
+	private String serialNo;
+	private String brand;
+	private OSEnum os;
+	private String color;
+	private Double price;
+	private Integer ram;
+	public MobilePhone() {
+		this.serialNo = null;
+		this.brand = null;
+		this.os = null;
+		this.color = null;
+		this.price = null;
+		this.ram = null;
+	}
+	public MobilePhone(String serialNo, String brand, OSEnum os, String color, Double price, Integer ram) {
+		this.serialNo = serialNo;
+		this.brand = brand;
+		this.os = os;
+		this.color = color;
+		this.price = price;
+		this.ram = ram;
+	}
+	public String getSerialNo() {
+		return serialNo;
+	}
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public OSEnum getOs() {
+		return os;
+	}
+	public void setOs(OSEnum os) {
+		this.os = os;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Integer getRam() {
+		return ram;
+	}
+	public void setRam(Integer ram) {
+		this.ram = ram;
+	}
+	@Override
+	public String toString() {
+		return "MobilePhone [serialNo=" + serialNo + ", brand=" + brand + ", os=" + os + ", color=" + color + ", price="
+				+ price + ", ram=" + ram + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(brand, color, os, price, ram, serialNo);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MobilePhone other = (MobilePhone) obj;
+		return Objects.equals(brand, other.brand) && Objects.equals(color, other.color) && os == other.os
+				&& Objects.equals(price, other.price) && Objects.equals(ram, other.ram)
+				&& Objects.equals(serialNo, other.serialNo);
+	}
+}

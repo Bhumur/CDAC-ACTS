@@ -1,0 +1,23 @@
+package com.cdac.acts.tester;
+
+import java.time.LocalDate;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class Question2 {
+
+	public static void main(String[] args) {
+		Function<Integer, Double> squareRoot  = (i) -> Math.pow(i, 0.5);
+		System.out.println("Square Root of 5 is : " + squareRoot.apply(5));
+		
+		BiFunction<Integer, Double, Double> power = (p,q) -> Math.pow(p, q);
+		System.out.println("7^8.8 is equal : " + power.apply(7, 8.8));
+		
+		Predicate<LocalDate> isPast = (date) -> date.isBefore(LocalDate.now());
+		LocalDate d1 = LocalDate.parse("2025-04-22");
+		LocalDate d2 = LocalDate.parse("2025-04-20");
+	}
+
+	
+}

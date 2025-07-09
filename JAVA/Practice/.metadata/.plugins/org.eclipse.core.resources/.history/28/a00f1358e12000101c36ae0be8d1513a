@@ -1,0 +1,40 @@
+package com.cdac.acts.account;
+
+import com.cdac.acts.enums.AccountTypeEnum;
+
+public class Account {
+	private static Integer paraInc = 1001;
+	private Integer id;
+	private String accountNumber;
+	private String name;
+	private String email;
+	private String phone;
+	private Double balance;
+	private AccountTypeEnum accountType;
+	public Account(Integer id, String accountNumber, String name, String email, String phone, Double balance,
+			AccountTypeEnum accountType) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.balance = balance;
+		this.accountType = accountType;
+	}
+	public Account(Integer id, String accountNumber, String name, String email, String phone, Double balance,
+			AccountTypeEnum accountType) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.balance = balance;
+		this.accountType = accountType;
+	}
+	
+	
+	
+	
+}

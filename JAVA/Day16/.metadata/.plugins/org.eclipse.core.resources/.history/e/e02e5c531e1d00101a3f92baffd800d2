@@ -1,0 +1,12 @@
+package com.cdac.acts.util;
+
+import java.util.ArrayList;
+
+import com.cdac.acts.book.Book;
+
+public interface DataEntry {
+	public static ArrayList<Book> bookList(){
+		ArrayList<Book> books = new ArrayList<>();
+		return 
+	}
+}
